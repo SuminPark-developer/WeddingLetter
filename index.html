@@ -109,38 +109,46 @@
     }
     #lightbox.show img { transform: scale(1); }
     #lightbox-close {
-      position: absolute; top: 20px; right: 24px;
-      color: rgba(255,255,255,.8); font-size: 28px;
-      background: none; border: none; cursor: pointer;
-      line-height: 1; padding: 8px;
+      position: absolute; top: 20px; right: 20px;
+      color: rgba(255,255,255,.85); font-size: 28px;
+      background: rgba(0,0,0,.3); border: none; cursor: pointer;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
     }
     .lb-nav {
       position: absolute; top: 50%; transform: translateY(-50%);
-      background: rgba(255,255,255,.15);
-      border: 1px solid rgba(255,255,255,.25);
-      color: #fff; font-size: 20px;
-      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff; font-size: 26px;
+      width: 52px; height: 52px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; backdrop-filter: blur(4px);
+      cursor: pointer;
       transition: background .2s;
-      /* 버튼이 이미지 클릭(닫기) 이벤트 전파 막음 */
+      z-index: 2;
+      /* 모바일 터치 영역 확보 */
+      -webkit-tap-highlight-color: transparent;
     }
-    .lb-nav:active { background: rgba(255,255,255,.3); }
-    #lb-prev { left: 16px; }
-    #lb-next { right: 16px; }
+    .lb-nav:active { background: rgba(255,255,255,.35); }
+    #lb-prev { left: 12px; }
+    #lb-next { right: 12px; }
+    /* 배경 클릭 전용 오버레이 */
+    #lb-backdrop {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    #lightbox img { position: relative; z-index: 1; }
     .lb-counter {
       position: absolute; bottom: 24px; left: 50%;
       transform: translateX(-50%);
-      color: rgba(255,255,255,.6);
+      color: rgba(255,255,255,.6); z-index: 2;
       font-family: var(--font-en); font-size: 13px; letter-spacing: 2px;
     }
-    /* 라이트박스 이미지 전환 애니메이션 */
     #lightbox-img.switching {
       opacity: 0; transform: scale(.96);
       transition: opacity .18s ease, transform .18s ease;
     }
     #lightbox-img {
-      transition: opacity .18s ease, transform .18s ease, transform .35s cubic-bezier(.25,.46,.45,.94);
+      transition: opacity .18s ease, transform .18s ease;
     }
     .modal-box {
       background: var(--white);
@@ -560,11 +568,12 @@
 <div id="toast"></div>
 
 <!-- 라이트박스 -->
-<div id="lightbox" onclick="closeLightbox()">
+<div id="lightbox">
+  <div id="lb-backdrop" onclick="closeLightbox()"></div>
   <button id="lightbox-close" onclick="closeLightbox()">✕</button>
-  <button class="lb-nav" id="lb-prev" onclick="event.stopPropagation(); lbNavigate(-1)">‹</button>
+  <button class="lb-nav" id="lb-prev" onclick="lbNavigate(-1)">‹</button>
   <img id="lightbox-img" src="" alt="웨딩 사진">
-  <button class="lb-nav" id="lb-next" onclick="event.stopPropagation(); lbNavigate(1)">›</button>
+  <button class="lb-nav" id="lb-next" onclick="lbNavigate(1)">›</button>
   <p class="lb-counter" id="lb-counter">1 / 6</p>
 </div>
 
@@ -1063,16 +1072,21 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight')  lbNavigate(1);
 });
 
-// 모바일 스와이프로 라이트박스 이미지 넘기기
+// 모바일: 이미지 스와이프로 넘기기
 let lbTouchX = 0;
-document.getElementById('lightbox').addEventListener('touchstart', e => {
+const lbImg = document.getElementById('lightbox-img');
+lbImg.addEventListener('touchstart', e => {
   lbTouchX = e.touches[0].clientX;
 }, { passive: true });
-document.getElementById('lightbox').addEventListener('touchend', e => {
+lbImg.addEventListener('touchend', e => {
   const diff = lbTouchX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 40) lbNavigate(diff > 0 ? 1 : -1);
-  else closeLightbox(); // 제자리 탭이면 닫기
 }, { passive: true });
+
+// 모바일: < > 버튼 터치 시 배경으로 전파 차단
+document.querySelectorAll('.lb-nav, #lightbox-close').forEach(btn => {
+  btn.addEventListener('touchend', e => e.stopPropagation(), { passive: false });
+});
 
 /* ─── 초기화 ─── */
 renderGb();
