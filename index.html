@@ -557,6 +557,42 @@
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* ── 배경음악 버튼 ── */
+    #music-btn {
+      position: fixed;
+      bottom: 28px; right: 20px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(139,123,104,0.82);
+      color: #fff;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 8000;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: background .2s, opacity .3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #music-btn:active { background: rgba(139,123,104,1); }
+    #music-btn .note {
+      display: inline-block;
+      transition: opacity .3s;
+    }
+    #music-btn.playing .note {
+      animation: noteSpin 3s linear infinite;
+    }
+    #music-btn.paused {
+      opacity: 0.5;
+    }
+    @keyframes noteSpin {
+      0%   { transform: rotate(0deg)   scale(1);    }
+      50%  { transform: rotate(180deg) scale(1.15); }
+      100% { transform: rotate(360deg) scale(1);    }
+    }
   </style>
 </head>
 <body>
@@ -566,6 +602,12 @@
 
 <!-- 토스트 -->
 <div id="toast"></div>
+
+<!-- 배경음악 -->
+<audio id="bgm" loop preload="auto" src="music/bgm.mp3"></audio>
+<button id="music-btn" class="paused" onclick="toggleMusic()" aria-label="배경음악 켜기/끄기">
+  <span class="note">♪</span>
+</button>
 
 <!-- 라이트박스 -->
 <div id="lightbox">
@@ -598,10 +640,6 @@
     <p class="cover-date-en">September 12, 2026 &nbsp;·&nbsp; Saturday</p>
     <h1 class="cover-names-en">Sumin &amp; Jihyeon</h1>
     <p class="cover-names-ko">박 수 민 &nbsp;·&nbsp; 오 지 현</p>
-  </div>
-  <div class="scroll-hint">
-    <p class="scroll-hint-text">SCROLL</p>
-    <div class="scroll-hint-line"></div>
   </div>
 </section>
 
@@ -1087,6 +1125,43 @@ lbImg.addEventListener('touchend', e => {
 document.querySelectorAll('.lb-nav, #lightbox-close').forEach(btn => {
   btn.addEventListener('touchend', e => e.stopPropagation(), { passive: false });
 });
+
+/* ─── 배경음악 ─── */
+const bgm = document.getElementById('bgm');
+const musicBtn = document.getElementById('music-btn');
+let musicOn = false;
+
+function setMusicState(playing) {
+  musicOn = playing;
+  musicBtn.classList.toggle('playing', playing);
+  musicBtn.classList.toggle('paused',  !playing);
+}
+
+function toggleMusic() {
+  if (musicOn) {
+    bgm.pause();
+    setMusicState(false);
+  } else {
+    bgm.play().then(() => setMusicState(true)).catch(() => {});
+  }
+}
+
+// 자동재생 시도 (모바일은 첫 터치 후 재생)
+function tryAutoPlay() {
+  bgm.play().then(() => {
+    setMusicState(true);
+  }).catch(() => {
+    // 자동재생 차단 → 첫 번째 사용자 인터랙션 때 재생
+    const onFirst = () => {
+      bgm.play().then(() => setMusicState(true)).catch(() => {});
+      document.removeEventListener('touchstart', onFirst);
+      document.removeEventListener('click',      onFirst);
+    };
+    document.addEventListener('touchstart', onFirst, { once: true });
+    document.addEventListener('click',      onFirst, { once: true });
+  });
+}
+tryAutoPlay();
 
 /* ─── 초기화 ─── */
 renderGb();
