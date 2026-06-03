@@ -104,6 +104,9 @@
     #lightbox img {
       max-width: 100%; max-height: 100dvh;
       object-fit: contain;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
       transform: scale(.92);
       transition: transform .35s cubic-bezier(.25,.46,.45,.94);
       border-radius: 2px;
@@ -426,6 +429,7 @@
       overflow: hidden; margin-bottom: 16px;
     }
     .map-frame iframe { width: 100%; height: 100%; border: none; }
+    .root_daum_roughmap { margin: 0 !important; padding: 0 !important; }
     .map-buttons {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 8px; margin-bottom: 28px; margin-top: 0;
@@ -1146,25 +1150,25 @@ const lbImages = [
   'images/IMG_3471.png',
   'images/IMG_5422.png',
   'images/IMG_0540.png',
-  'images/IMG_0348.PNG',
-  'images/IMG_1260.PNG',
-  'images/IMG_1525.PNG',
-  'images/IMG_1876.PNG',
-  'images/IMG_2284.PNG',
-  'images/IMG_2605.PNG',
-  'images/IMG_3323.PNG',
-  'images/IMG_3611.PNG',
-  'images/IMG_3766.PNG',
-  'images/IMG_3895.PNG',
-  'images/IMG_4019.PNG',
-  'images/IMG_4389.PNG',
-  'images/IMG_5326.PNG',
-  'images/IMG_5485.PNG',
-  'images/a01edit.JPG',
-  'images/a02edit.JPG',
-  'images/a04edit.JPG',
-  'images/a05edit 1.JPG',
   'images/a06edit.JPG',
+  'images/a05edit 1.JPG',
+  'images/a04edit.JPG',
+  'images/a02edit.JPG',
+  'images/a01edit.JPG',
+  'images/IMG_5485.PNG',
+  'images/IMG_5326.PNG',
+  'images/IMG_4389.PNG',
+  'images/IMG_4019.PNG',
+  'images/IMG_3895.PNG',
+  'images/IMG_3766.PNG',
+  'images/IMG_3611.PNG',
+  'images/IMG_3323.PNG',
+  'images/IMG_2605.PNG',
+  'images/IMG_2284.PNG',
+  'images/IMG_1876.PNG',
+  'images/IMG_1525.PNG',
+  'images/IMG_1260.PNG',
+  'images/IMG_0348.PNG',
 ];
 let lbIndex = 0;
 
