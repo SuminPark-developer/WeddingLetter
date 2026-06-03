@@ -140,7 +140,7 @@
     #lb-backdrop {
       position: absolute; inset: 0; z-index: 0;
     }
-    #lightbox img { position: relative; z-index: 1; }
+    #lightbox img { position: relative; z-index: 1; transition: opacity .2s ease; }
     .lb-counter {
       position: absolute; bottom: 24px; left: 50%;
       transform: translateX(-50%);
@@ -363,9 +363,9 @@
     /* ── 사진 그리드 ── */
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-      padding: 24px 16px 0;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      padding: 0;
     }
     .photo-grid img {
       width: 100%; aspect-ratio: 1/1;
@@ -609,6 +609,9 @@
       color: rgba(255,255,255,.82); margin-bottom: 10px;
     }
 
+    @keyframes lbSpin {
+      to { transform: rotate(360deg); }
+    }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -670,9 +673,10 @@
   <div id="lb-backdrop" onclick="closeLightbox()"></div>
   <button id="lightbox-close" onclick="closeLightbox()">✕</button>
   <button class="lb-nav" id="lb-prev" onclick="lbNavigate(-1)">‹</button>
+  <div id="lb-spinner" style="display:none; position:absolute; z-index:3; width:40px; height:40px; border:3px solid rgba(255,255,255,.2); border-top-color:#fff; border-radius:50%; animation:lbSpin .7s linear infinite;"></div>
   <img id="lightbox-img" src="" alt="웨딩 사진">
   <button class="lb-nav" id="lb-next" onclick="lbNavigate(1)">›</button>
-  <p class="lb-counter" id="lb-counter">1 / 6</p>
+  <p class="lb-counter" id="lb-counter">1 / 25</p>
 </div>
 
 <!-- RSVP 완료 모달 -->
@@ -753,44 +757,33 @@
 <section id="gallery">
   <p class="sec-label" style="text-align:center;">Gallery</p>
   <div class="sec-line"></div>
-  <div class="gallery-scroller" id="galleryScroller">
-    <div class="gallery-slide"><img src="images/IMG_2379.png" alt="웨딩 사진 1" loading="lazy" onclick="openLightbox(this)"></div>
-    <div class="gallery-slide"><img src="images/IMG_2677.png" alt="웨딩 사진 2" loading="lazy" onclick="openLightbox(this)"></div>
-    <div class="gallery-slide"><img src="images/IMG_2932.png" alt="웨딩 사진 3" loading="lazy" onclick="openLightbox(this)"></div>
-    <div class="gallery-slide"><img src="images/IMG_3471.png" alt="웨딩 사진 4" loading="lazy" onclick="openLightbox(this)"></div>
-    <div class="gallery-slide"><img src="images/IMG_5422.png" alt="웨딩 사진 5" loading="lazy" onclick="openLightbox(this)" style="object-position: center bottom;"></div>
-    <div class="gallery-slide"><img src="images/IMG_0540.png" alt="웨딩 사진 6" loading="lazy" onclick="openLightbox(this)"></div>
-  </div>
-  <div class="gallery-dots" id="galleryDots">
-    <div class="gallery-dot active"></div>
-    <div class="gallery-dot"></div>
-    <div class="gallery-dot"></div>
-    <div class="gallery-dot"></div>
-    <div class="gallery-dot"></div>
-    <div class="gallery-dot"></div>
-  </div>
-
   <!-- 사진 그리드 -->
   <div class="photo-grid" id="photoGrid">
     <img src="images/a06edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
     <img src="images/a05edit 1.JPG" alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
     <img src="images/a04edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
     <img src="images/a02edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/a01edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_5485.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_5326.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_4389.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_4019.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_5485.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_5422.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_5326.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_4389.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_4019.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
     <img src="images/IMG_3895.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_3766.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_3611.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_3471.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_3323.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_2932.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_2677.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_2605.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_2379.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_2284.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_1876.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_1525.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_1260.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_0540.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_0348.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/a01edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
   </div>
   <button class="more-btn" id="moreBtn" onclick="showMorePhotos()">사진 더보기</button>
 </section>
@@ -1012,58 +1005,6 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.section, #gallery').forEach(el => obs.observe(el));
 
-/* ─── 갤러리 스크롤 닷 동기화 + 자동 슬라이드 ─── */
-const scroller = document.getElementById('galleryScroller');
-const dots = document.querySelectorAll('.gallery-dot');
-const SLIDE_COUNT = 6;
-const AUTO_INTERVAL = 4000; // 4초마다 전환
-let autoTimer = null;
-let isUserScrolling = false;
-
-function getSlideWidth() {
-  return scroller.querySelector('.gallery-slide').offsetWidth;
-}
-
-function goToSlide(idx) {
-  scroller.scrollTo({ left: idx * getSlideWidth(), behavior: 'smooth' });
-}
-
-function startAutoPlay() {
-  clearInterval(autoTimer);
-  autoTimer = setInterval(() => {
-    const current = Math.round(scroller.scrollLeft / getSlideWidth());
-    const next = (current + 1) % SLIDE_COUNT;
-    goToSlide(next);
-  }, AUTO_INTERVAL);
-}
-
-function stopAutoPlay() {
-  clearInterval(autoTimer);
-}
-
-// 닷 동기화
-scroller.addEventListener('scroll', () => {
-  const idx = Math.round(scroller.scrollLeft / getSlideWidth());
-  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-}, { passive: true });
-
-// 사용자가 손으로 스와이프하면 잠깐 멈췄다가 재개
-scroller.addEventListener('touchstart', () => {
-  stopAutoPlay();
-}, { passive: true });
-
-scroller.addEventListener('touchend', () => {
-  startAutoPlay();
-}, { passive: true });
-
-// 캐러셀이 화면에 보일 때만 자동재생 (배터리/성능 배려)
-const galleryObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) startAutoPlay();
-    else stopAutoPlay();
-  });
-}, { threshold: 0.1 });
-galleryObserver.observe(scroller);
 
 /* ─── 계좌 아코디언 ─── */
 function toggleAcc(header) {
@@ -1170,31 +1111,31 @@ function closeModal(id) { document.getElementById(id).classList.remove('show'); 
 
 /* ─── 라이트박스 ─── */
 const lbImages = [
-  'images/IMG_2379.png',
-  'images/IMG_2677.png',
-  'images/IMG_2932.png',
-  'images/IMG_3471.png',
-  'images/IMG_5422.png',
-  'images/IMG_0540.png',
   'images/a06edit.JPG',
   'images/a05edit 1.JPG',
   'images/a04edit.JPG',
   'images/a02edit.JPG',
-  'images/a01edit.JPG',
   'images/IMG_5485.PNG',
+  'images/IMG_5422.png',
   'images/IMG_5326.PNG',
   'images/IMG_4389.PNG',
   'images/IMG_4019.PNG',
   'images/IMG_3895.PNG',
   'images/IMG_3766.PNG',
   'images/IMG_3611.PNG',
+  'images/IMG_3471.png',
   'images/IMG_3323.PNG',
+  'images/IMG_2932.png',
+  'images/IMG_2677.png',
   'images/IMG_2605.PNG',
+  'images/IMG_2379.png',
   'images/IMG_2284.PNG',
   'images/IMG_1876.PNG',
   'images/IMG_1525.PNG',
   'images/IMG_1260.PNG',
+  'images/IMG_0540.png',
   'images/IMG_0348.PNG',
+  'images/a01edit.JPG',
 ];
 let lbIndex = 0;
 
@@ -1217,28 +1158,33 @@ function lbPreload(idx) {
 }
 
 function lbSetImage(idx, animate = true) {
-  const imgEl = document.getElementById('lightbox-img');
-  const newSrc = lbImages[idx];
+  const imgEl  = document.getElementById('lightbox-img');
+  const spinner = document.getElementById('lb-spinner');
+  const newSrc  = lbImages[idx];
   document.getElementById('lb-counter').textContent = `${idx + 1} / ${lbImages.length}`;
 
   if (animate) {
-    // 새 이미지 미리 로드 후 교체
+    // 이미지 숨기고 스피너 표시
+    imgEl.style.opacity = '0';
+    spinner.style.display = 'block';
+
     const preload = new Image();
-    preload.src = newSrc;
-    imgEl.classList.add('switching');
     preload.onload = () => {
       imgEl.src = newSrc;
-      imgEl.classList.remove('switching');
+      imgEl.style.opacity = '1';
+      spinner.style.display = 'none';
+      lbPreload(idx);
     };
-    // 3초 후에도 안 로드되면 강제 교체
-    setTimeout(() => {
-      if (imgEl.src !== preload.src) {
-        imgEl.src = newSrc;
-        imgEl.classList.remove('switching');
-      }
-    }, 3000);
+    preload.onerror = () => {
+      imgEl.src = newSrc;
+      imgEl.style.opacity = '1';
+      spinner.style.display = 'none';
+    };
+    preload.src = newSrc;
   } else {
     imgEl.src = newSrc;
+    imgEl.style.opacity = '1';
+    spinner.style.display = 'none';
     lbPreload(idx);
   }
 }
