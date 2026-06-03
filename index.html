@@ -995,7 +995,7 @@
   <div class="modal-box">
     <p class="modal-title" style="margin-bottom:8px;">댓글 삭제</p>
     <p class="modal-desc">작성 시 입력한 비밀번호를 입력해주세요</p>
-    <input type="password" id="deletePwInput" class="rsvp-input" placeholder="비밀번호" style="margin-top:16px; width:100%;">
+    <input type="password" id="deletePwInput" class="rsvp-input" placeholder="숫자 6자리 비밀번호" style="margin-top:16px; width:100%;" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
     <div style="display:flex; gap:8px; margin-top:16px;">
       <button class="modal-close" style="background:var(--text-sub); flex:1;" onclick="closeModal('modal-delete-gb')">취소</button>
       <button class="modal-close" style="flex:1;" onclick="confirmDeleteGb()">삭제</button>
@@ -1085,6 +1085,16 @@ function submitRsvp(e) {
   showModal('modal-rsvp');
 }
 
+/* ─── 비속어 필터 ─── */
+const badWords = [
+  '씨발','시발','ㅅㅂ','개새','개새끼','새끼','놈','년','미친','미친놈','미친년',
+  '병신','ㅂㅅ','지랄','ㅈㄹ','꺼져','죽어','개같','개잡','fuck','shit','bitch','asshole','bastard'
+];
+function hasBadWord(str) {
+  const s = str.toLowerCase().replace(/\s/g,'');
+  return badWords.some(w => s.includes(w.toLowerCase()));
+}
+
 /* ─── Firebase 방명록 ─── */
 const firebaseConfig = {
   apiKey: "AIzaSyDLOorKwrktyLkdgEgEp2n-V2cdSyBr43w",
@@ -1133,6 +1143,7 @@ async function submitGb() {
   if (!text) { toast('메시지를 입력해주세요'); return; }
   if (!pw)            { toast('삭제용 비밀번호를 입력해주세요'); return; }
   if (!/^\d{6}$/.test(pw)) { toast('비밀번호는 숫자 6자리로 입력해주세요'); return; }
+  if (hasBadWord(name) || hasBadWord(text)) { toast('부적절한 표현이 포함되어 있습니다'); return; }
   try {
     await gbCol.add({
       name, text, password: pw,
