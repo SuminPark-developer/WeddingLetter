@@ -39,10 +39,12 @@
       -webkit-tap-highlight-color: transparent;
     }
     img {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-      pointer-events: auto;
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
+    #lightbox img {
+      pointer-events: none;
     }
     html { scroll-behavior: smooth; }
 
@@ -1284,7 +1286,11 @@ coverEl.style.height = window.innerHeight + 'px';
 /* ─── 초기화 ─── */
 renderGb();
 // 이미지 길게 누르기 방지
-document.addEventListener('contextmenu', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('contextmenu', e => e.preventDefault());
+  img.draggable = false;
+});
 </script>
 </body>
 </html>
