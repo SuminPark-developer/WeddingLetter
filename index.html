@@ -981,14 +981,32 @@
   <div class="sec-line"></div>
 
   <div class="gb-form">
-    <input  class="gb-input" type="text" id="gbName"    placeholder="이름" maxlength="20">
+    <input  class="gb-input" type="text"     id="gbName" placeholder="이름" maxlength="20">
     <textarea class="gb-input" id="gbMsg" rows="3" placeholder="축하 메시지를 남겨주세요 💌" maxlength="200"></textarea>
+    <input  class="gb-input" type="password" id="gbPw"   placeholder="삭제용 비밀번호 (숫자 4자리 권장)" maxlength="20">
     <button class="gb-submit" onclick="submitGb()">메시지 남기기</button>
   </div>
 
   <div class="gb-list" id="gbList"></div>
 </section>
 
+<!-- 방명록 삭제 모달 -->
+<div class="modal-overlay" id="modal-delete-gb">
+  <div class="modal-box">
+    <p class="modal-title" style="margin-bottom:8px;">댓글 삭제</p>
+    <p class="modal-desc">작성 시 입력한 비밀번호를 입력해주세요</p>
+    <input type="password" id="deletePwInput" class="rsvp-input" placeholder="비밀번호" style="margin-top:16px; width:100%;">
+    <div style="display:flex; gap:8px; margin-top:16px;">
+      <button class="modal-close" style="background:var(--text-sub); flex:1;" onclick="closeModal('modal-delete-gb')">취소</button>
+      <button class="modal-close" style="flex:1;" onclick="confirmDeleteGb()">삭제</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <!-- Footer -->
 <footer>
@@ -1067,35 +1085,89 @@ function submitRsvp(e) {
   showModal('modal-rsvp');
 }
 
-/* ─── 방명록 ─── */
-function renderGb() {
-  const list = JSON.parse(localStorage.getItem('guestbook') || '[]');
+/* ─── Firebase 방명록 ─── */
+const firebaseConfig = {
+  apiKey: "AIzaSyDLOorKwrktyLkdgEgEp2n-V2cdSyBr43w",
+  authDomain: "weddingletter-b921d.firebaseapp.com",
+  projectId: "weddingletter-b921d",
+  storageBucket: "weddingletter-b921d.firebasestorage.app",
+  messagingSenderId: "232475133810",
+  appId: "1:232475133810:web:a2106c81c5fa8fd91a7feb"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const gbCol = db.collection('guestbook');
+
+// 실시간 업데이트
+gbCol.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
   const el = document.getElementById('gbList');
-  if (!list.length) {
-    el.innerHTML = '<p class="gb-empty">첫 번째 메시지를 남겨주세요 💌</p>'; return;
+  if (snapshot.empty) {
+    el.innerHTML = '<p class="gb-empty">첫 번째 메시지를 남겨주세요 💌</p>';
+    return;
   }
-  el.innerHTML = [...list].reverse().map(m => `
+  el.innerHTML = snapshot.docs.map(d => {
+    const m = d.data();
+    const date = m.createdAt?.toDate ? m.createdAt.toDate().toLocaleDateString('ko-KR') : '';
+    return `
     <div class="gb-item">
       <div class="gb-item-header">
         <span class="gb-item-name">${esc(m.name)}</span>
-        <span class="gb-item-date">${m.at}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="gb-item-date">${date}</span>
+          <button onclick="deleteGb('${d.id}')" style="font-size:11px;color:var(--text-sub);background:none;border:none;cursor:pointer;padding:0;">삭제</button>
+        </div>
       </div>
       <p class="gb-item-text">${esc(m.text)}</p>
-    </div>`).join('');
-}
+    </div>`;
+  }).join('');
+}, err => {
+  console.error(err);
+});
 
-function submitGb() {
+async function submitGb() {
   const name = document.getElementById('gbName').value.trim();
   const text = document.getElementById('gbMsg').value.trim();
+  const pw   = document.getElementById('gbPw').value.trim();
   if (!name) { toast('이름을 입력해주세요'); return; }
   if (!text) { toast('메시지를 입력해주세요'); return; }
-  const list = JSON.parse(localStorage.getItem('guestbook') || '[]');
-  list.push({ name, text, at: new Date().toLocaleDateString('ko-KR') });
-  localStorage.setItem('guestbook', JSON.stringify(list));
-  document.getElementById('gbName').value = '';
-  document.getElementById('gbMsg').value  = '';
-  renderGb();
-  toast('메시지가 등록되었습니다 💌');
+  if (!pw)   { toast('삭제용 비밀번호를 입력해주세요'); return; }
+  try {
+    await gbCol.add({
+      name, text, password: pw,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('gbName').value = '';
+    document.getElementById('gbMsg').value  = '';
+    document.getElementById('gbPw').value   = '';
+    toast('메시지가 등록되었습니다 💌');
+  } catch(e) {
+    toast('등록에 실패했습니다. 다시 시도해주세요.');
+  }
+}
+
+let pendingDeleteId = null;
+function deleteGb(id) {
+  pendingDeleteId = id;
+  document.getElementById('deletePwInput').value = '';
+  showModal('modal-delete-gb');
+}
+async function confirmDeleteGb() {
+  const pw = document.getElementById('deletePwInput').value.trim();
+  if (!pw) { toast('비밀번호를 입력해주세요'); return; }
+  try {
+    const docRef = gbCol.doc(pendingDeleteId);
+    const snap = await docRef.get();
+    if (snap.data().password === pw) {
+      await docRef.delete();
+      closeModal('modal-delete-gb');
+      toast('삭제되었습니다');
+    } else {
+      toast('비밀번호가 일치하지 않습니다');
+    }
+  } catch(e) {
+    toast('삭제에 실패했습니다.');
+  }
+  pendingDeleteId = null;
 }
 
 function esc(s) {
@@ -1284,7 +1356,6 @@ const coverEl = document.getElementById('cover');
 coverEl.style.height = window.innerHeight + 'px';
 
 /* ─── 초기화 ─── */
-renderGb();
 // 이미지 길게 누르기 방지
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.querySelectorAll('img').forEach(img => {
