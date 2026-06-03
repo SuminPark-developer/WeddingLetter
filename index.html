@@ -983,7 +983,7 @@
   <div class="gb-form">
     <input  class="gb-input" type="text"     id="gbName" placeholder="이름" maxlength="20">
     <textarea class="gb-input" id="gbMsg" rows="3" placeholder="축하 메시지를 남겨주세요 💌" maxlength="200"></textarea>
-    <input  class="gb-input" type="password" id="gbPw"   placeholder="삭제용 비밀번호 (숫자 4자리 권장)" maxlength="20">
+    <input  class="gb-input" type="password" id="gbPw"   placeholder="삭제용 비밀번호 (숫자 6자리)" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
     <button class="gb-submit" onclick="submitGb()">메시지 남기기</button>
   </div>
 
@@ -1131,7 +1131,8 @@ async function submitGb() {
   const pw   = document.getElementById('gbPw').value.trim();
   if (!name) { toast('이름을 입력해주세요'); return; }
   if (!text) { toast('메시지를 입력해주세요'); return; }
-  if (!pw)   { toast('삭제용 비밀번호를 입력해주세요'); return; }
+  if (!pw)            { toast('삭제용 비밀번호를 입력해주세요'); return; }
+  if (!/^\d{6}$/.test(pw)) { toast('비밀번호는 숫자 6자리로 입력해주세요'); return; }
   try {
     await gbCol.add({
       name, text, password: pw,
