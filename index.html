@@ -38,6 +38,12 @@
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
+    img {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+      pointer-events: auto;
+    }
     html { scroll-behavior: smooth; }
 
     /* PC에서 모바일 카드처럼 보이게 */
@@ -205,9 +211,6 @@
       width: 100%; height: 100%;
       object-fit: cover; object-position: center top;
       display: block;
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      will-change: auto;
     }
     .cover-gradient {
       position: absolute; inset: 0;
@@ -1273,6 +1276,10 @@ function showMorePhotos() {
     btn.style.display = 'none';
   }, 800);
 }
+
+/* ─── 커버 높이 고정 (iOS Safari 줌 방지) ─── */
+const coverEl = document.getElementById('cover');
+coverEl.style.height = window.innerHeight + 'px';
 
 /* ─── 초기화 ─── */
 renderGb();
