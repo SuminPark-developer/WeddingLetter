@@ -1122,6 +1122,7 @@ gbCol.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
   }).join('');
 }, err => {
   console.error(err);
+  document.getElementById('gbList').innerHTML = `<p class="gb-empty" style="color:red;">오류: ${err.message}</p>`;
 });
 
 async function submitGb() {
@@ -1141,7 +1142,8 @@ async function submitGb() {
     document.getElementById('gbPw').value   = '';
     toast('메시지가 등록되었습니다 💌');
   } catch(e) {
-    toast('등록에 실패했습니다. 다시 시도해주세요.');
+    toast('등록 실패: ' + e.message);
+    console.error(e);
   }
 }
 
