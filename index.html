@@ -1297,13 +1297,13 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight')  lbNavigate(1);
 });
 
-// 모바일: 이미지 스와이프로 넘기기
+// 모바일: 라이트박스 스와이프로 넘기기
 let lbTouchX = 0;
-const lbImg = document.getElementById('lightbox-img');
-lbImg.addEventListener('touchstart', e => {
+const lbBox = document.getElementById('lightbox');
+lbBox.addEventListener('touchstart', e => {
   lbTouchX = e.touches[0].clientX;
 }, { passive: true });
-lbImg.addEventListener('touchend', e => {
+lbBox.addEventListener('touchend', e => {
   const diff = lbTouchX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 40) lbNavigate(diff > 0 ? 1 : -1);
 }, { passive: true });
