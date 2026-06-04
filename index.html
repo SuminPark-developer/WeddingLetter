@@ -443,6 +443,8 @@
     .root_daum_roughmap,
     .root_daum_roughmap_landing,
     .root_daum_roughmap * { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+    .root_daum_roughmap .wrap_map + * { display: none !important; }
+    .root_daum_roughmap_landing > *:not(.wrap_map) { display: none !important; }
     .map-buttons { margin-top: 8px !important; }
     .map-buttons {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -614,6 +616,42 @@
       color: rgba(255,255,255,.82); margin-bottom: 10px;
     }
 
+    /* ── 로딩 스크린 ── */
+    #loading-screen {
+      position: fixed; inset: 0;
+      background: #F4EFE8;
+      z-index: 99999;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 20px;
+      transition: opacity .8s ease;
+    }
+    #loading-screen.hide { opacity: 0; pointer-events: none; }
+    .loading-names {
+      font-family: var(--font-en); font-size: 28px;
+      font-weight: 300; font-style: italic;
+      color: var(--text); letter-spacing: 1px;
+    }
+    .loading-date {
+      font-family: var(--font-en); font-size: 11px;
+      letter-spacing: 5px; color: var(--accent);
+      text-transform: uppercase;
+    }
+    .loading-bar-wrap {
+      width: 80px; height: 1px;
+      background: var(--border); position: relative; overflow: hidden;
+    }
+    .loading-bar {
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--accent);
+      animation: loadSlide 1.2s ease-in-out infinite;
+    }
+    @keyframes loadSlide {
+      0%   { left: -100%; }
+      100% { left: 100%; }
+    }
+
     @keyframes lbSpin {
       to { transform: rotate(360deg); }
     }
@@ -660,6 +698,13 @@
   </style>
 </head>
 <body>
+
+<!-- 로딩 스크린 -->
+<div id="loading-screen">
+  <p class="loading-names">Sumin &amp; Jihyeon</p>
+  <p class="loading-date">September 12, 2026</p>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+</div>
 
 <!-- 스크롤 프로그레스 -->
 <div id="progress-bar"></div>
@@ -1363,6 +1408,22 @@ function showMorePhotos() {
     document.querySelectorAll('#photoGrid img.hidden').forEach(img => img.classList.remove('hidden'));
     btn.style.display = 'none';
   }, 800);
+}
+
+/* ─── 로딩 스크린 ─── */
+const coverImg = document.querySelector('#cover img');
+const loadingScreen = document.getElementById('loading-screen');
+function hideLoading() {
+  loadingScreen.classList.add('hide');
+  setTimeout(() => loadingScreen.style.display = 'none', 800);
+}
+if (coverImg.complete) {
+  hideLoading();
+} else {
+  coverImg.addEventListener('load', hideLoading);
+  coverImg.addEventListener('error', hideLoading);
+  // 최대 3초 후 강제 제거
+  setTimeout(hideLoading, 3000);
 }
 
 /* ─── 커버 높이 고정 (iOS Safari 줌 방지) ─── */
