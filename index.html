@@ -729,41 +729,31 @@
       color: rgba(255,255,255,.82); margin-bottom: 10px;
     }
 
-    /* ── 로딩 스크린 ── */
-    #loading-screen {
+    /* ── 인트로 스크린 ── */
+    #intro-screen {
       position: fixed; inset: 0;
-      background: #F4EFE8;
+      background: #000;
       z-index: 99999;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 20px;
-      transition: opacity .8s ease;
+      overflow: hidden;
+      transition: opacity 1s ease;
     }
-    #loading-screen.hide { opacity: 0; pointer-events: none; }
-    .loading-names {
-      font-family: var(--font-en); font-size: 28px;
-      font-weight: 300; font-style: italic;
-      color: var(--text); letter-spacing: 1px;
-    }
-    .loading-date {
-      font-family: var(--font-en); font-size: 11px;
-      letter-spacing: 5px; color: var(--accent);
-      text-transform: uppercase;
-    }
-    .loading-bar-wrap {
-      width: 80px; height: 1px;
-      background: var(--border); position: relative; overflow: hidden;
-    }
-    .loading-bar {
-      position: absolute; top: 0; left: -100%;
+    #intro-screen.hide { opacity: 0; pointer-events: none; }
+    #intro-img {
+      position: absolute; inset: 0;
       width: 100%; height: 100%;
-      background: var(--accent);
-      animation: loadSlide 1.2s ease-in-out infinite;
+      object-fit: cover;
+      opacity: 1;
+      transition: opacity 1s ease;
     }
-    @keyframes loadSlide {
-      0%   { left: -100%; }
-      100% { left: 100%; }
+    #intro-img.fade-out { opacity: 0; }
+    #intro-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
+    #intro-video.fade-in { opacity: 1; }
 
     @keyframes lbSpin {
       to { transform: rotate(360deg); }
@@ -812,11 +802,10 @@
 </head>
 <body>
 
-<!-- 로딩 스크린 -->
-<div id="loading-screen">
-  <p class="loading-names">Sumin &amp; Jihyeon</p>
-  <p class="loading-date">September 12, 2026</p>
-  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+<!-- 인트로 스크린 -->
+<div id="intro-screen">
+  <img id="intro-img" src="images/청첩장 일러스트.png" alt="청첩장 일러스트">
+  <video id="intro-video" src="images/청첩장 일러스트.mp4" muted playsinline preload="auto"></video>
 </div>
 
 <!-- 스크롤 프로그레스 -->
@@ -1574,21 +1563,32 @@ function showMorePhotos() {
   }, 800);
 }
 
-/* ─── 로딩 스크린 ─── */
-const coverImg = document.querySelector('#cover img');
-const loadingScreen = document.getElementById('loading-screen');
-function hideLoading() {
-  loadingScreen.classList.add('hide');
-  setTimeout(() => loadingScreen.style.display = 'none', 800);
+/* ─── 인트로 스크린 ─── */
+const introScreen = document.getElementById('intro-screen');
+const introImg    = document.getElementById('intro-img');
+const introVideo  = document.getElementById('intro-video');
+
+function endIntro() {
+  introScreen.classList.add('hide');
+  setTimeout(() => introScreen.style.display = 'none', 1000);
 }
-if (coverImg.complete) {
-  hideLoading();
-} else {
-  coverImg.addEventListener('load', hideLoading);
-  coverImg.addEventListener('error', hideLoading);
-  // 최대 3초 후 강제 제거
-  setTimeout(hideLoading, 3000);
-}
+
+// 영상 끝나면 웹사이트 진입
+introVideo.addEventListener('ended', endIntro);
+
+// 최대 10초 안전장치
+const introTimeout = setTimeout(endIntro, 10000);
+introVideo.addEventListener('ended', () => clearTimeout(introTimeout));
+
+// 1.5초 후 PNG → 영상으로 전환
+setTimeout(() => {
+  introImg.classList.add('fade-out');
+  introVideo.classList.add('fade-in');
+  introVideo.play().catch(() => {
+    // 자동재생 차단 시 바로 웹사이트 진입
+    endIntro();
+  });
+}, 1500);
 
 /* ─── 커버 높이 고정 (iOS Safari 줌 방지) ─── */
 const coverEl = document.getElementById('cover');
