@@ -910,6 +910,25 @@
       font-size: 14px; cursor: pointer; white-space: nowrap;
     }
 
+    /* ── 저장 로딩 오버레이 ── */
+    #face-save-loading {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.45); align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+    }
+    #face-save-loading.show { display: flex; }
+    .face-save-spinner {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.25);
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+    .face-save-loading-txt {
+      color: #fff; font-family: var(--font-ko); font-size: 14px;
+      letter-spacing: 0.03em;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     /* ── Footer ── */
     footer {
       background: var(--text); color: rgba(255,255,255,.45);
@@ -1482,6 +1501,12 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+<!-- 저장 로딩 오버레이 -->
+<div id="face-save-loading">
+  <div class="face-save-spinner"></div>
+  <p class="face-save-loading-txt" id="face-save-loading-txt">저장 중입니다</p>
+</div>
 
 <!-- Footer -->
 <footer>
@@ -2154,20 +2179,15 @@ async function submitFaceGb() {
   if (hasBadWord(name)) { toast('부적절한 표현이 포함되어 있습니다'); return; }
 
   const btn = document.querySelector('#modal-face-draw .gb-send-btn');
-  btn.disabled = true;
+  btn.textContent = 'Draw your face!'; btn.disabled = true;
 
-  // 저장 중 메시지 순환
-  const loadingMsgs = ['저장 중입니다', '잠시만 기다려주세요'];
-  let msgIdx = 0;
-  btn.textContent = loadingMsgs[msgIdx];
-  const msgTimer = setInterval(() => {
-    msgIdx = (msgIdx + 1) % loadingMsgs.length;
-    btn.textContent = loadingMsgs[msgIdx];
-  }, 1200);
+  const loadingEl  = document.getElementById('face-save-loading');
+  const loadingTxt = document.getElementById('face-save-loading-txt');
+  loadingTxt.textContent = '저장 중입니다';
+  loadingEl.classList.add('show');
 
   try {
     // faceCanvas 직접 저장 (투명 배경 + 스트로크만) — 외부 이미지 없음 → taint 없음
-    // 뷰어/갤러리에서 템플릿 CSS 레이어가 투명 영역을 통해 보임
     const blob = await new Promise((res, rej) =>
       faceCanvas.toBlob(b => b ? res(b) : rej(new Error('blob fail')), 'image/png')
     );
@@ -2178,12 +2198,11 @@ async function submitFaceGb() {
       slot: currentFaceSlot, name, message: msg, password: pw,
       imageUrl, createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    clearInterval(msgTimer);
-    btn.textContent = '저장 완료!';
-    setTimeout(() => closeModal('modal-face-draw'), 500);
+    loadingEl.classList.remove('show');
+    closeModal('modal-face-draw');
     toast('얼굴 방명록이 등록되었습니다! 🎨');
   } catch(e) {
-    clearInterval(msgTimer);
+    loadingEl.classList.remove('show');
     toast('저장 실패: ' + e.message);
     console.error(e);
     btn.textContent = 'Draw your face!'; btn.disabled = false;
