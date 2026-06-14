@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no, address=no, email=no">
 
   <!-- OG Tags (카카오톡 공유 미리보기) -->
   <meta property="og:type"        content="website">
@@ -561,6 +562,7 @@
     .acc-role-tag { font-size: 12px; color: var(--text-sub); font-weight: 300; }
     .acc-main-name { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: .5px; }
     .acc-bank-str { font-size: 12px; color: var(--text-sub); text-align: right; word-break: keep-all; }
+    .acc-bank-str a { color: inherit; text-decoration: none; pointer-events: none; }
     .acc-sep { height: 1px; background: var(--border); margin: 0 20px; }
     .btn-copy-full {
       width: 100%; padding: 12px 8px;
@@ -701,9 +703,12 @@
       width: 100%; padding: 14px 16px; height: 100px;
       border: 1px solid var(--border); border-radius: 8px;
       background: var(--bg); font-family: var(--font-ko);
-      font-size: 14px; color: var(--text);
+      font-size: 16px; color: var(--text);
       outline: none; resize: none; margin-bottom: 16px;
       transition: border-color .3s;
+      line-height: 1.6;
+      -webkit-appearance: none;
+      transform: translateZ(0);
     }
     .gb-write-textarea:focus { border-color: var(--accent); }
     .gb-write-textarea::placeholder { color: #ccc8c0; }
@@ -716,8 +721,10 @@
       width: 100%; padding: 12px 14px;
       border: 1px solid var(--border); border-radius: 8px;
       background: var(--bg); font-family: var(--font-ko);
-      font-size: 14px; color: var(--text); outline: none;
+      font-size: 16px; color: var(--text); outline: none;
       transition: border-color .3s;
+      -webkit-appearance: none;
+      transform: translateZ(0);
     }
     .gb-field input:focus { border-color: var(--accent); }
     .gb-example-toggle {
@@ -1625,8 +1632,8 @@ setTimeout(() => {
   introImg.classList.add('fade-out');
   introVideo.classList.add('fade-in');
   introVideo.play().then(() => {
-    // 영상 재생 시작 후 1초만 보여주고 진입
-    setTimeout(endIntro, 1000);
+    // 영상 재생 시작 후 1.5초만 보여주고 진입
+    setTimeout(endIntro, 1500);
   }).catch(() => {
     // 자동재생 차단 시 바로 웹사이트 진입
     endIntro();
