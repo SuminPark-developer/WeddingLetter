@@ -531,10 +531,10 @@
     .acc-arrow.open { transform: rotate(180deg); }
     .acc-body {
       max-height: 0; overflow: hidden;
-      transition: max-height .4s ease;
+      transition: max-height .4s ease-in-out;
       background: var(--bg);
     }
-    .acc-body.open { max-height: 160px; }
+    .acc-body.open { max-height: 600px; }
     .acc-inner { padding: 20px; border-top: 1px solid var(--border); }
     .acc-bank { font-size: 12px; color: var(--text-sub); letter-spacing: 1px; margin-bottom: 6px; }
     .acc-number {
@@ -549,6 +549,27 @@
       transition: opacity .2s;
     }
     .copy-btn:active { opacity: .75; }
+
+    /* 계좌 카드 (개편) */
+    .acc-side-label { font-size: 15px; color: var(--text); letter-spacing: 1px; }
+    .acc-person-card { padding: 18px 20px; border-top: 1px solid var(--border); }
+    .acc-person-top {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 12px; gap: 8px;
+    }
+    .acc-name-wrap { display: flex; align-items: baseline; gap: 5px; flex-shrink: 0; }
+    .acc-role-tag { font-size: 12px; color: var(--text-sub); font-weight: 300; }
+    .acc-main-name { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: .5px; }
+    .acc-bank-str { font-size: 12px; color: var(--text-sub); text-align: right; word-break: keep-all; }
+    .acc-sep { height: 1px; background: var(--border); margin: 0 20px; }
+    .btn-copy-full {
+      width: 100%; padding: 12px 8px;
+      background: var(--white); color: var(--text);
+      border: 1px solid var(--border); border-radius: 24px;
+      font-family: var(--font-ko); font-size: 13px;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .btn-copy-full:active { opacity: .75; }
 
     /* ═══════════════════════════
        8. RSVP
@@ -863,12 +884,9 @@
   <p class="sec-label">Invitation</p>
   <div class="sec-line"></div>
   <p class="greeting-text">
-    서로가 마주보며 다져온 사랑을<br>
-    이제 함께 걸어갈 큰 사랑으로 키우고자 합니다.<br>
-    <br>
-    두 사람이 사랑으로 하나 되는 날,<br>
-    귀한 걸음 하시어 축복해 주시면<br>
-    더없는 기쁨이 되겠습니다.
+    어느 해 첫날에 시작된 인연이,<br>
+    열 번째 해의 가을에 매듭을 짓습니다.<br>
+    오랜 사이가 평생이 되는 날, 함께해 주세요.
   </p>
 </section>
 
@@ -1056,19 +1074,32 @@
   <!-- 신랑측 -->
   <div class="acc-block">
     <div class="acc-header" onclick="toggleAcc(this)">
-      <div class="acc-header-left">
-        <span class="acc-badge">신랑측</span>
-        <span class="acc-name">박수민</span>
-      </div>
+      <span class="acc-side-label">신랑측</span>
       <span class="acc-arrow">▼</span>
     </div>
     <div class="acc-body">
-      <div class="acc-inner">
-        <p class="acc-bank">국민은행</p>
-        <p class="acc-number">937702-00-096332</p>
-        <button class="copy-btn" onclick="copyAcc('937702-00-096332','박수민 (국민은행)')">
-          계좌번호 복사
-        </button>
+      <!-- 신랑 박수민 -->
+      <div class="acc-person-card">
+        <div class="acc-person-top">
+          <div class="acc-name-wrap">
+            <span class="acc-role-tag">신랑</span>
+            <strong class="acc-main-name">박수민</strong>
+          </div>
+          <span class="acc-bank-str">국민은행 937702-00-096332</span>
+        </div>
+        <button class="btn-copy-full" onclick="copyAcc('국민은행 937702-00-096332 박수민','박수민')">계좌번호 복사</button>
+      </div>
+      <div class="acc-sep"></div>
+      <!-- 혼주 박광덕 -->
+      <div class="acc-person-card">
+        <div class="acc-person-top">
+          <div class="acc-name-wrap">
+            <span class="acc-role-tag">혼주</span>
+            <strong class="acc-main-name">박광덕</strong>
+          </div>
+          <span class="acc-bank-str">국민은행 529402-01-053111</span>
+        </div>
+        <button class="btn-copy-full" onclick="copyAcc('국민은행 529402-01-053111 박광덕','박광덕')">계좌번호 복사</button>
       </div>
     </div>
   </div>
@@ -1076,19 +1107,32 @@
   <!-- 신부측 -->
   <div class="acc-block">
     <div class="acc-header" onclick="toggleAcc(this)">
-      <div class="acc-header-left">
-        <span class="acc-badge">신부측</span>
-        <span class="acc-name">오지현</span>
-      </div>
+      <span class="acc-side-label">신부측</span>
       <span class="acc-arrow">▼</span>
     </div>
     <div class="acc-body">
-      <div class="acc-inner">
-        <p class="acc-bank">카카오뱅크</p>
-        <p class="acc-number">3333-02-9782589</p>
-        <button class="copy-btn" onclick="copyAcc('3333-02-9782589','오지현 (카카오뱅크)')">
-          계좌번호 복사
-        </button>
+      <!-- 신부 오지현 -->
+      <div class="acc-person-card">
+        <div class="acc-person-top">
+          <div class="acc-name-wrap">
+            <span class="acc-role-tag">신부</span>
+            <strong class="acc-main-name">오지현</strong>
+          </div>
+          <span class="acc-bank-str">카카오뱅크 3333-02-9782589</span>
+        </div>
+        <button class="btn-copy-full" onclick="copyAcc('카카오뱅크 3333-02-9782589 오지현','오지현')">계좌번호 복사</button>
+      </div>
+      <div class="acc-sep"></div>
+      <!-- 혼주 김영자 -->
+      <div class="acc-person-card">
+        <div class="acc-person-top">
+          <div class="acc-name-wrap">
+            <span class="acc-role-tag">혼주</span>
+            <strong class="acc-main-name">김영자</strong>
+          </div>
+          <span class="acc-bank-str">하나은행 824-910059-73207</span>
+        </div>
+        <button class="btn-copy-full" onclick="copyAcc('하나은행 824-910059-73207 김영자','김영자')">계좌번호 복사</button>
       </div>
     </div>
   </div>
@@ -1205,7 +1249,7 @@ function copyAcc(num, label) {
         t.value = num; document.body.appendChild(t); t.select();
         document.execCommand('copy'); document.body.removeChild(t); res();
       })
-  ).then(() => toast(label + ' 계좌번호가 복사되었습니다'));
+  ).then(() => toast(label + ' 계좌정보가 복사되었습니다'));
 }
 
 /* ─── RSVP 참석/불참 토글 ─── */
@@ -1573,22 +1617,21 @@ function endIntro() {
   setTimeout(() => introScreen.style.display = 'none', 1000);
 }
 
-// 영상 끝나면 웹사이트 진입
-introVideo.addEventListener('ended', endIntro);
+// 최대 3초 안전장치
+const introTimeout = setTimeout(endIntro, 3000);
 
-// 최대 10초 안전장치
-const introTimeout = setTimeout(endIntro, 10000);
-introVideo.addEventListener('ended', () => clearTimeout(introTimeout));
-
-// 1.5초 후 PNG → 영상으로 전환
+// 0.1초 후 PNG → 영상으로 전환
 setTimeout(() => {
   introImg.classList.add('fade-out');
   introVideo.classList.add('fade-in');
-  introVideo.play().catch(() => {
+  introVideo.play().then(() => {
+    // 영상 재생 시작 후 1초만 보여주고 진입
+    setTimeout(endIntro, 1000);
+  }).catch(() => {
     // 자동재생 차단 시 바로 웹사이트 진입
     endIntro();
   });
-}, 1500);
+}, 100);
 
 /* ─── 커버 높이 고정 (iOS Safari 줌 방지) ─── */
 const coverEl = document.getElementById('cover');
