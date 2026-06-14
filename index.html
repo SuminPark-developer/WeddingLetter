@@ -752,7 +752,7 @@
     #face-guestbook { background: var(--bg-alt); text-align: center; }
     .face-gb-title { font-size: 17px; font-weight: 700; line-height: 1.7; margin-bottom: 14px; color: var(--text); }
     .face-gb-sub { font-size: 13px; color: var(--text-sub); line-height: 1.8; margin-bottom: 8px; }
-    .face-gb-inst { font-size: 13.5px; font-weight: 500; color: var(--text); margin-bottom: 26px; }
+    .face-gb-inst { font-size: 11.5px; font-weight: 400; color: var(--text-sub); margin-bottom: 26px; }
 
     .face-special-row {
       display: flex; align-items: flex-start;
@@ -1365,14 +1365,12 @@
      10. 얼굴 그림 방명록
 ═════════════════════════════ -->
 <section class="section" id="face-guestbook">
-  <p class="sec-label">Guestbook</p>
+  <p class="sec-label">Face Guestbook</p>
   <div class="sec-line"></div>
 
-  <p class="face-gb-title">참여하는 하객분들의<br>얼굴을 그려주세요</p>
-  <p class="face-gb-sub">
-    잘 못 그려도 괜찮아요<br>당신의 얼굴로 이 날을 기억할게요
-  </p>
-  <p class="face-gb-inst">원하는 위치를 선택해주세요</p>
+  <p class="face-gb-title">참석해주시는 소중한 하객분들의<br>얼굴을 남겨주세요.</p>
+  <p class="face-gb-sub">저희가 오래도록 소중한 추억으로 간직하겠습니다.</p>
+  <p class="face-gb-inst">원하는 얼굴의 위치를 선택하고 터치해 주세요.</p>
 
   <!-- 신랑 / 신부 특별 슬롯 -->
   <div class="face-special-row">
@@ -1429,8 +1427,8 @@
   <div class="modal-box face-draw-box">
     <div class="face-draw-header">
       <div>
-        <strong>얼굴 방명록 남기기</strong>
-        <span class="face-draw-sub">못 그려도 괜찮아요, 마음껏 남겨주세요</span>
+        <strong>Draw your face!</strong>
+        <span class="face-draw-sub">그림 실력은 중요하지 않아요. 편하게 남겨주세요.</span>
       </div>
       <button class="face-draw-close-btn" onclick="closeModal('modal-face-draw')">✕</button>
     </div>
@@ -1473,7 +1471,7 @@
         <p>방명록 삭제에 필요한 비밀번호를 적어주세요</p>
         <input id="faceGbPw" type="password" placeholder="1234 (숫자 4자리)" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" style="font-size:16px;">
       </div>
-      <button class="gb-send-btn" onclick="submitFaceGb()">얼굴 방명록 남기기</button>
+      <button class="gb-send-btn" onclick="submitFaceGb()">Draw your face!</button>
     </div>
   </div>
 </div>
@@ -2025,7 +2023,7 @@ function openFaceModal(slot) {
   document.getElementById('faceGbMsg').value  = '';
   document.getElementById('faceGbPw').value   = '';
   const btn = document.querySelector('#modal-face-draw .gb-send-btn');
-  btn.textContent = '얼굴 방명록 남기기'; btn.disabled = false;
+  btn.textContent = 'Draw your face!'; btn.disabled = false;
   setFaceTool('pen');
   showModal('modal-face-draw');
   requestAnimationFrame(initFaceCanvas);
@@ -2177,7 +2175,7 @@ async function submitFaceGb() {
   } catch(e) {
     toast('저장 실패: ' + e.message);
     console.error(e);
-    btn.textContent = '얼굴 방명록 남기기'; btn.disabled = false;
+    btn.textContent = 'Draw your face!'; btn.disabled = false;
   }
 }
 
