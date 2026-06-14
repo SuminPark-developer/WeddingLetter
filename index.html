@@ -12,7 +12,7 @@
   <meta property="og:image"       content="images/IMG_5422.png">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
-  <title>수민 &amp; 지현, 결혼합니다!</title>
+  <title>Sumin &amp; Jihyeon's Wedding</title>
 
   <script type="application/ld+json">
   {
@@ -760,28 +760,17 @@
     /* ── 인트로 스크린 ── */
     #intro-screen {
       position: fixed; inset: 0;
-      background: #000;
+      background: #fff;
       z-index: 99999;
       overflow: hidden;
-      transition: opacity 1s ease;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.8s ease;
     }
     #intro-screen.hide { opacity: 0; pointer-events: none; }
     #intro-img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 1;
-      transition: opacity 1s ease;
+      width: 80%; max-width: 360px;
+      object-fit: contain;
     }
-    #intro-img.fade-out { opacity: 0; }
-    #intro-video {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-    #intro-video.fade-in { opacity: 1; }
 
     @keyframes lbSpin {
       to { transform: rotate(360deg); }
@@ -832,8 +821,7 @@
 
 <!-- 인트로 스크린 -->
 <div id="intro-screen">
-  <img id="intro-img" src="images/illu.png" alt="청첩장 일러스트">
-  <video id="intro-video" src="images/illu.mp4" muted playsinline preload="auto"></video>
+  <img id="intro-img" src="images/Loading_01.png" alt="Loading">
 </div>
 
 <!-- 스크롤 프로그레스 -->
@@ -936,31 +924,30 @@
   <div class="sec-line"></div>
   <!-- 사진 그리드 -->
   <div class="photo-grid" id="photoGrid">
-    <img src="images/a06edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
     <img src="images/a05edit 1.JPG" alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/a04edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/a02edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/IMG_5485.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/IMG_5422.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/IMG_5326.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/IMG_4389.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/IMG_4019.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
-    <img src="images/IMG_3895.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_3766.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/a06edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_2677.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_2932.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_3323.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_2284.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_2379.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_2605.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
+    <img src="images/IMG_0348.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)">
     <img src="images/IMG_3611.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_3895.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_3471.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_3323.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_2932.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_2677.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_2605.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_2379.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_2284.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_1876.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_1525.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_1260.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_3766.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
     <img src="images/IMG_0540.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/IMG_0348.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
-    <img src="images/a01edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_1260.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_1525.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_1876.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_5485.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_5422.png"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/a02edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/a04edit.JPG"   alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_5326.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_4389.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
+    <img src="images/IMG_4019.PNG"  alt="웨딩 사진" loading="lazy" onclick="openLightbox(this)" class="hidden">
   </div>
   <button class="more-btn" id="moreBtn" onclick="showMorePhotos()">사진 더보기</button>
 </section>
@@ -1451,31 +1438,30 @@ function closeModal(id) { document.getElementById(id).classList.remove('show'); 
 
 /* ─── 라이트박스 ─── */
 const lbImages = [
-  'images/a06edit.JPG',
   'images/a05edit 1.JPG',
-  'images/a04edit.JPG',
-  'images/a02edit.JPG',
+  'images/a06edit.JPG',
+  'images/IMG_2677.png',
+  'images/IMG_2932.png',
+  'images/IMG_3323.PNG',
+  'images/IMG_2284.PNG',
+  'images/IMG_2379.png',
+  'images/IMG_2605.PNG',
+  'images/IMG_0348.PNG',
+  'images/IMG_3611.PNG',
+  'images/IMG_3895.PNG',
+  'images/IMG_3471.png',
+  'images/IMG_3766.PNG',
+  'images/IMG_0540.png',
+  'images/IMG_1260.PNG',
+  'images/IMG_1525.PNG',
+  'images/IMG_1876.PNG',
   'images/IMG_5485.PNG',
   'images/IMG_5422.png',
+  'images/a02edit.JPG',
+  'images/a04edit.JPG',
   'images/IMG_5326.PNG',
   'images/IMG_4389.PNG',
   'images/IMG_4019.PNG',
-  'images/IMG_3895.PNG',
-  'images/IMG_3766.PNG',
-  'images/IMG_3611.PNG',
-  'images/IMG_3471.png',
-  'images/IMG_3323.PNG',
-  'images/IMG_2932.png',
-  'images/IMG_2677.png',
-  'images/IMG_2605.PNG',
-  'images/IMG_2379.png',
-  'images/IMG_2284.PNG',
-  'images/IMG_1876.PNG',
-  'images/IMG_1525.PNG',
-  'images/IMG_1260.PNG',
-  'images/IMG_0540.png',
-  'images/IMG_0348.PNG',
-  'images/a01edit.JPG',
 ];
 let lbIndex = 0;
 
@@ -1617,34 +1603,33 @@ function showMorePhotos() {
 /* ─── 인트로 스크린 ─── */
 const introScreen = document.getElementById('intro-screen');
 const introImg    = document.getElementById('intro-img');
-const introVideo  = document.getElementById('intro-video');
+
+// 이미지 프리로드
+['images/Loading_01.png','images/Loading_02.png','images/Loading_03.png']
+  .forEach(src => { const i = new Image(); i.src = src; });
 
 let introDone = false;
 function endIntro() {
   if (introDone) return;
   introDone = true;
-  clearTimeout(introTimeout);
+  clearInterval(frameInterval);
   introScreen.classList.add('hide');
-  setTimeout(() => introScreen.style.display = 'none', 1000);
+  setTimeout(() => introScreen.style.display = 'none', 800);
 }
 
-// PC/모바일 클릭 시 바로 스킵
+// 클릭 시 스킵
 introScreen.addEventListener('click', endIntro);
 
-// 최대 3초 안전장치
-const introTimeout = setTimeout(endIntro, 3000);
+// 프레임 순환 (Loading. → .. → ...)
+const frames = ['images/Loading_01.png','images/Loading_02.png','images/Loading_03.png'];
+let frameIdx = 0;
+const frameInterval = setInterval(() => {
+  frameIdx = (frameIdx + 1) % frames.length;
+  introImg.src = frames[frameIdx];
+}, 400);
 
-// 1초 후 PNG → 영상으로 전환
-setTimeout(() => {
-  introImg.classList.add('fade-out');
-  introVideo.classList.add('fade-in');
-  introVideo.play().then(() => {
-    // 영상 재생 시작 후 1.5초 후 진입
-    setTimeout(endIntro, 1500);
-  }).catch(() => {
-    endIntro();
-  });
-}, 1000);
+// 2.5초 후 웹사이트 진입
+setTimeout(endIntro, 2500);
 
 /* ─── 커버 높이 고정 (iOS Safari 줌 방지) ─── */
 const coverEl = document.getElementById('cover');
