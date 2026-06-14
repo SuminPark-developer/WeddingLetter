@@ -832,8 +832,8 @@
 
 <!-- 인트로 스크린 -->
 <div id="intro-screen">
-  <img id="intro-img" src="images/청첩장 일러스트.png" alt="청첩장 일러스트">
-  <video id="intro-video" src="images/청첩장 일러스트.mp4" muted playsinline preload="auto"></video>
+  <img id="intro-img" src="images/illu.png" alt="청첩장 일러스트">
+  <video id="intro-video" src="images/illu.mp4" muted playsinline preload="auto"></video>
 </div>
 
 <!-- 스크롤 프로그레스 -->
@@ -1627,7 +1627,7 @@ function endIntro() {
 // 최대 3초 안전장치
 const introTimeout = setTimeout(endIntro, 3000);
 
-// 0.1초 후 PNG → 영상으로 전환
+// 1초 후 PNG → 영상으로 전환
 setTimeout(() => {
   introImg.classList.add('fade-out');
   introVideo.classList.add('fade-in');
@@ -1638,7 +1638,7 @@ setTimeout(() => {
     // 자동재생 차단 시 바로 웹사이트 진입
     endIntro();
   });
-}, 100);
+}, 1000);
 
 /* ─── 커버 높이 고정 (iOS Safari 줌 방지) ─── */
 const coverEl = document.getElementById('cover');
