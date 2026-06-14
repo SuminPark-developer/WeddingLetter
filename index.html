@@ -870,7 +870,7 @@
       position: absolute; top: 0; left: 0;
       width: 100%; height: 100%; object-fit: contain; border-radius: 6px;
     }
-    .face-view-img-inner #faceViewImg { mix-blend-mode: multiply; }
+    .face-view-img-inner #faceViewImg { mix-blend-mode: multiply; transition: opacity 0.25s ease; }
     .face-view-info {
       text-align: center; padding: 20px 24px 20px;
       background: #F8F6F2;
@@ -1974,7 +1974,11 @@ function openFaceViewer(slot) {
   const d = faceData[slot];
   if (!d) return;
   viewingFaceSlot = slot;
-  document.getElementById('faceViewImg').src  = d.imageUrl;
+  const img = document.getElementById('faceViewImg');
+  img.style.opacity = '0';
+  img.src = '';
+  img.onload = () => { img.style.opacity = '1'; };
+  img.src = d.imageUrl;
   document.getElementById('faceViewName').textContent = d.name;
   document.getElementById('faceViewMsg').textContent  = d.message || '';
   document.getElementById('faceViewPwRow').classList.remove('show');
