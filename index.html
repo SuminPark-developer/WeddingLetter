@@ -855,7 +855,7 @@
     #modal-face-view { align-items: center; justify-content: center; padding: 24px; }
     .face-view-box {
       width: 100%; max-width: 320px;
-      max-height: 88svh; overflow-x: hidden; overflow-y: auto;
+      max-height: 88svh; overflow-y: auto;
       border-radius: 16px !important; background: var(--white);
       padding: 0; transform: none !important;
     }
@@ -894,18 +894,18 @@
     }
     .face-view-del-btn:active { background: var(--bg); }
     .face-view-pw-row {
-      display: none; gap: 8px; align-items: center;
+      display: none; flex-direction: row; gap: 8px; align-items: center;
     }
     .face-view-pw-row.show { display: flex; }
     .face-view-pw-row input {
-      flex: 1; padding: 10px 12px; border: 1px solid var(--border);
+      flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--border);
       border-radius: 8px; font-size: 16px; font-family: var(--font-ko);
       outline: none; background: var(--bg); color: var(--text);
       -webkit-appearance: none;
     }
     .face-view-pw-row input:focus { border-color: #e55; }
     .face-view-pw-confirm {
-      padding: 10px 16px; background: #e55; color: #fff;
+      flex-shrink: 0; padding: 10px 16px; background: #e55; color: #fff;
       border: none; border-radius: 8px; font-family: var(--font-ko);
       font-size: 14px; cursor: pointer; white-space: nowrap;
     }
