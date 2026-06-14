@@ -1619,10 +1619,17 @@ const introScreen = document.getElementById('intro-screen');
 const introImg    = document.getElementById('intro-img');
 const introVideo  = document.getElementById('intro-video');
 
+let introDone = false;
 function endIntro() {
+  if (introDone) return;
+  introDone = true;
+  clearTimeout(introTimeout);
   introScreen.classList.add('hide');
   setTimeout(() => introScreen.style.display = 'none', 1000);
 }
+
+// PC/모바일 클릭 시 바로 스킵
+introScreen.addEventListener('click', endIntro);
 
 // 최대 3초 안전장치
 const introTimeout = setTimeout(endIntro, 3000);
@@ -1632,10 +1639,9 @@ setTimeout(() => {
   introImg.classList.add('fade-out');
   introVideo.classList.add('fade-in');
   introVideo.play().then(() => {
-    // 영상 재생 시작 후 1.5초만 보여주고 진입
+    // 영상 재생 시작 후 1.5초 후 진입
     setTimeout(endIntro, 1500);
   }).catch(() => {
-    // 자동재생 차단 시 바로 웹사이트 진입
     endIntro();
   });
 }, 1000);
