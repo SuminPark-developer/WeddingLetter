@@ -1953,14 +1953,7 @@ function renderFaceSpecial() {
     if (!d) return;
     el.classList.add('filled');
     el.querySelector('.face-slot-body').innerHTML = `<div class="face-drawn-wrap"><img class="face-tmpl-svg" src="images/face_empty.png" alt=""><img class="face-drawn-img" src="${d.imageUrl}" alt="${esc(d.name)}"></div>`;
-    // 이름/메시지 영역: 없으면 새로 추가
-    let infoEl = el.querySelector('.face-slot-info');
-    if (!infoEl) {
-      infoEl = document.createElement('div');
-      infoEl.className = 'face-slot-info';
-      el.appendChild(infoEl);
-    }
-    infoEl.innerHTML = `<span class="face-slot-name">${esc(d.name)}</span>${d.message ? `<span class="face-slot-msg">${esc(d.message)}</span>` : ''}`;
+    // 신랑/신부 특별 슬롯은 이름 표기 없음 (옆에 영문 이름이 이미 있음)
   });
 }
 
@@ -2160,7 +2153,17 @@ async function submitFaceGb() {
   if (hasBadWord(name)) { toast('부적절한 표현이 포함되어 있습니다'); return; }
 
   const btn = document.querySelector('#modal-face-draw .gb-send-btn');
-  btn.textContent = '저장 중...'; btn.disabled = true;
+  btn.disabled = true;
+
+  // 저장 중 메시지 순환
+  const loadingMsgs = ['저장 중입니다', '잠시만 기다려주세요'];
+  let msgIdx = 0;
+  btn.textContent = loadingMsgs[msgIdx];
+  const msgTimer = setInterval(() => {
+    msgIdx = (msgIdx + 1) % loadingMsgs.length;
+    btn.textContent = loadingMsgs[msgIdx];
+  }, 1200);
+
   try {
     // faceCanvas 직접 저장 (투명 배경 + 스트로크만) — 외부 이미지 없음 → taint 없음
     // 뷰어/갤러리에서 템플릿 CSS 레이어가 투명 영역을 통해 보임
@@ -2174,9 +2177,12 @@ async function submitFaceGb() {
       slot: currentFaceSlot, name, message: msg, password: pw,
       imageUrl, createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    closeModal('modal-face-draw');
+    clearInterval(msgTimer);
+    btn.textContent = '저장 완료!';
+    setTimeout(() => closeModal('modal-face-draw'), 500);
     toast('얼굴 방명록이 등록되었습니다! 🎨');
   } catch(e) {
+    clearInterval(msgTimer);
     toast('저장 실패: ' + e.message);
     console.error(e);
     btn.textContent = 'Draw your face!'; btn.disabled = false;
