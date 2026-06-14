@@ -746,6 +746,169 @@
     }
     .gb-send-btn:active { opacity: .8; }
 
+    /* ═══════════════════════════════
+       10. 얼굴 그림 방명록
+    ═══════════════════════════════ */
+    #face-guestbook { background: var(--bg-alt); text-align: center; }
+    .face-gb-title { font-size: 17px; font-weight: 700; line-height: 1.7; margin-bottom: 14px; color: var(--text); }
+    .face-gb-sub { font-size: 13px; color: var(--text-sub); line-height: 1.8; margin-bottom: 8px; }
+    .face-gb-inst { font-size: 13.5px; font-weight: 500; color: var(--text); margin-bottom: 26px; }
+
+    .face-special-row {
+      display: flex; align-items: flex-start;
+      justify-content: center; gap: 10px; margin-bottom: 28px;
+    }
+    .face-side-info {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 3px; min-width: 68px; padding-top: 12px;
+    }
+    .face-side-en { font-family: var(--font-en); font-size: 11px; letter-spacing: 2px; }
+    .face-side-info.groom .face-side-en { color: #8B9DBF; }
+    .face-side-info.bride  .face-side-en { color: var(--accent); }
+    .face-side-kr { font-size: 11px; color: var(--text); }
+
+    .face-slot {
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: transform .15s;
+    }
+    .face-slot:active { transform: scale(.92); }
+    .face-slot.filled { cursor: default; }
+    .face-slot.filled:active { transform: none; }
+    .face-slot-body {
+      width: 58px; height: 65px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .face-slot--special .face-slot-body { width: 74px; height: 84px; }
+    .face-tmpl-svg { width: 100%; height: 100%; display: block; object-fit: contain; }
+    .face-drawn-wrap { position: relative; width: 100%; height: 100%; }
+    .face-drawn-wrap .face-tmpl-svg { position: absolute; top: 0; left: 0; pointer-events: none; }
+    .face-drawn-img { width: 100%; height: 100%; object-fit: contain; border-radius: 3px; display: block; mix-blend-mode: multiply; }
+    .face-slot-info { display: flex; flex-direction: column; align-items: center; margin-top: 5px; min-height: 28px; gap: 1px; }
+    .face-slot-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .face-slot:not(.filled) .face-slot-name { color: var(--border); font-weight: 300; }
+    .face-slot-msg { font-size: 10px; color: var(--accent); line-height: 1.3; }
+    .face-slot-msg-hint { font-size: 10px; color: var(--border); line-height: 1.3; }
+
+    .face-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px 2px; padding: 0 4px; }
+
+    /* 얼굴 그림 모달 */
+    #modal-face-draw { align-items: flex-end; }
+    .face-draw-box {
+      width: 100%; max-height: 94vh; overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 20px 20px 0 0 !important;
+      background: var(--white); padding: 0; transform: none !important;
+    }
+    .face-draw-box { text-align: left; }
+    .face-draw-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 20px 20px 14px; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--white); z-index: 1;
+    }
+    .face-draw-header strong { font-size: 15px; font-weight: 600; display: block; }
+    .face-draw-sub { font-size: 12px; color: var(--text-sub); margin-top: 3px; display: block; }
+    .face-draw-close-btn { background: none; border: none; font-size: 18px; color: var(--text-sub); cursor: pointer; padding: 4px; line-height: 1; flex-shrink: 0; }
+    .face-canvas-wrap { display: flex; justify-content: center; padding: 20px 20px 0; background: #F8F6F2; }
+    .face-canvas-container {
+      position: relative; border-radius: 4px;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.07); background: #fff;
+      display: inline-block;
+    }
+    .face-template-bg {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; object-fit: contain;
+      pointer-events: none; user-select: none; display: block;
+    }
+    #faceCanvas {
+      display: block; touch-action: none; cursor: crosshair;
+      background: transparent; position: relative; z-index: 1;
+      max-width: 100%;
+    }
+    .face-tools {
+      display: flex; padding: 10px 16px; gap: 4px;
+      background: #F8F6F2; border-bottom: 1px solid var(--border);
+      justify-content: space-around;
+    }
+    .face-tool-btn {
+      flex: 1; padding: 8px 4px; background: none; border: none;
+      color: var(--text-sub); cursor: pointer; border-radius: 8px;
+      transition: all .15s; display: flex; flex-direction: column;
+      align-items: center; gap: 3px; font-size: 10px; font-family: var(--font-ko);
+    }
+    .face-tool-btn svg { width: 20px; height: 20px; display: block; }
+    .face-tool-btn.active { color: var(--accent); background: var(--accent-light); }
+    .face-form { padding: 18px 20px 32px; text-align: left; }
+    .face-form .gb-field { margin-bottom: 16px; }
+    .face-form textarea {
+      width: 100%; min-height: 68px; border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; font-size: 16px;
+      font-family: var(--font-ko); color: var(--text); background: var(--bg);
+      outline: none; resize: none; -webkit-appearance: none;
+      transform: translateZ(0); transition: border-color .3s;
+      line-height: 1.6; box-sizing: border-box;
+    }
+    .face-form textarea:focus { border-color: var(--accent); }
+    .face-form textarea::placeholder { color: #ccc8c0; }
+
+    /* 얼굴 뷰어 모달 */
+    #modal-face-view { align-items: center; justify-content: center; padding: 24px; }
+    .face-view-box {
+      width: 100%; max-width: 320px;
+      border-radius: 16px !important; background: var(--white);
+      padding: 0; overflow: hidden; transform: none !important;
+    }
+    .face-view-img-wrap {
+      display: flex; justify-content: center; align-items: center;
+      background: #F8F6F2; padding: 24px 24px 0;
+    }
+    .face-view-img-inner {
+      position: relative; width: 220px; height: 244px;
+      border-radius: 6px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+    .face-view-img-inner img {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; object-fit: contain; border-radius: 6px;
+    }
+    .face-view-img-inner #faceViewImg { mix-blend-mode: multiply; }
+    .face-view-info {
+      text-align: center; padding: 20px 24px 20px;
+      background: #F8F6F2;
+    }
+    .face-view-name { font-size: 17px; font-weight: 700; color: var(--text); }
+    .face-view-msg  { font-size: 13px; color: var(--accent); margin-top: 6px; min-height: 18px; }
+    .face-view-actions { padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 10px; }
+    .face-view-close-btn {
+      width: 100%; padding: 14px; background: #2c2c2c; color: #fff;
+      border: none; border-radius: 10px; font-family: var(--font-ko);
+      font-size: 15px; cursor: pointer; transition: opacity .2s;
+    }
+    .face-view-close-btn:active { opacity: .8; }
+    .face-view-del-area { display: flex; flex-direction: column; gap: 8px; }
+    .face-view-del-btn {
+      width: 100%; padding: 12px; background: none;
+      border: 1px solid var(--border); border-radius: 10px;
+      font-family: var(--font-ko); font-size: 14px;
+      color: var(--text-sub); cursor: pointer; transition: all .2s;
+    }
+    .face-view-del-btn:active { background: var(--bg); }
+    .face-view-pw-row {
+      display: none; gap: 8px; align-items: center;
+    }
+    .face-view-pw-row.show { display: flex; }
+    .face-view-pw-row input {
+      flex: 1; padding: 10px 12px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 16px; font-family: var(--font-ko);
+      outline: none; background: var(--bg); color: var(--text);
+      -webkit-appearance: none;
+    }
+    .face-view-pw-row input:focus { border-color: #e55; }
+    .face-view-pw-confirm {
+      padding: 10px 16px; background: #e55; color: #fff;
+      border: none; border-radius: 8px; font-family: var(--font-ko);
+      font-size: 14px; cursor: pointer; white-space: nowrap;
+    }
+
     /* ── Footer ── */
     footer {
       background: var(--text); color: rgba(255,255,255,.45);
@@ -1138,7 +1301,7 @@
 <!-- ═════════════════════════════
      9. 방명록
 ═════════════════════════════ -->
-<section class="section" id="guestbook">
+<section class="section" id="guestbook" style="display:none">
   <p class="sec-label">Guestbook</p>
   <div class="sec-line"></div>
 
@@ -1198,9 +1361,128 @@
 </div>
 
 
+<!-- ═════════════════════════════
+     10. 얼굴 그림 방명록
+═════════════════════════════ -->
+<section class="section" id="face-guestbook">
+  <p class="sec-label">Guestbook</p>
+  <div class="sec-line"></div>
+
+  <p class="face-gb-title">참여하는 하객분들의<br>얼굴을 그려주세요</p>
+  <p class="face-gb-sub">
+    잘 못 그려도 괜찮아요<br>당신의 얼굴로 이 날을 기억할게요
+  </p>
+  <p class="face-gb-inst">원하는 위치를 선택해주세요</p>
+
+  <!-- 신랑 / 신부 특별 슬롯 -->
+  <div class="face-special-row">
+    <div class="face-side-info groom">
+      <span class="face-side-en">GROOM</span>
+      <span class="face-side-kr">Sumin Park</span>
+    </div>
+    <div class="face-slot face-slot--special" id="fslot-groom" data-slot="groom" onclick="handleFaceSlotClick('groom')">
+      <div class="face-slot-body"><img class="face-tmpl-svg" src="images/face_empty.png" alt=""></div>
+    </div>
+    <div class="face-slot face-slot--special" id="fslot-bride" data-slot="bride" onclick="handleFaceSlotClick('bride')">
+      <div class="face-slot-body"><img class="face-tmpl-svg" src="images/face_empty.png" alt=""></div>
+    </div>
+    <div class="face-side-info bride">
+      <span class="face-side-en">BRIDE</span>
+      <span class="face-side-kr">Jihyeon Oh</span>
+    </div>
+  </div>
+
+  <!-- 게스트 그리드 (JS로 채움) -->
+  <div class="face-grid" id="faceGrid"></div>
+</section>
+
+<!-- 얼굴 그림 뷰어 모달 -->
+<div class="modal-overlay" id="modal-face-view">
+  <div class="modal-box face-view-box">
+    <div class="face-view-img-wrap">
+      <div class="face-view-img-inner">
+        <img src="images/face_empty.png" alt="">
+        <img id="faceViewImg" src="" alt="">
+      </div>
+    </div>
+    <div class="face-view-info">
+      <p class="face-view-name" id="faceViewName"></p>
+      <p class="face-view-msg"  id="faceViewMsg"></p>
+    </div>
+    <div class="face-view-actions">
+      <button class="face-view-close-btn" onclick="closeModal('modal-face-view')">닫기</button>
+      <div class="face-view-del-area">
+        <button class="face-view-del-btn" id="faceViewDelBtn" onclick="toggleFaceDelPw()">삭제하기</button>
+        <div class="face-view-pw-row" id="faceViewPwRow">
+          <input type="password" id="faceViewPwInput" placeholder="비밀번호 4자리"
+                 maxlength="4" inputmode="numeric"
+                 oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+          <button class="face-view-pw-confirm" onclick="confirmFaceDel()">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 얼굴 그림 방명록 모달 -->
+<div class="modal-overlay" id="modal-face-draw">
+  <div class="modal-box face-draw-box">
+    <div class="face-draw-header">
+      <div>
+        <strong>얼굴 방명록 남기기</strong>
+        <span class="face-draw-sub">못 그려도 괜찮아요, 마음껏 남겨주세요</span>
+      </div>
+      <button class="face-draw-close-btn" onclick="closeModal('modal-face-draw')">✕</button>
+    </div>
+    <div class="face-canvas-wrap">
+      <div class="face-canvas-container">
+        <img class="face-template-bg" src="images/face_empty.png" alt="">
+        <canvas id="faceCanvas" width="280" height="310"></canvas>
+      </div>
+    </div>
+    <div class="face-tools">
+      <button class="face-tool-btn active" id="toolPen" onclick="setFaceTool('pen')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+        <span>펜</span>
+      </button>
+      <button class="face-tool-btn" id="toolEraser" onclick="setFaceTool('eraser')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16l10-10 7 7-3 3"/><path d="M6 11l7 7"/></svg>
+        <span>지우개</span>
+      </button>
+      <button class="face-tool-btn" onclick="faceUndo()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+        <span>전으로</span>
+      </button>
+      <button class="face-tool-btn" onclick="faceDo()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>
+        <span>앞으로</span>
+      </button>
+    </div>
+    <div class="face-form">
+      <div class="gb-field">
+        <label>성함 <span>*</span></label>
+        <p>방명록에 보여질 이름을 적어주세요.</p>
+        <input id="faceGbName" placeholder="홍길동" maxlength="6" style="font-size:16px;">
+      </div>
+      <div class="gb-field">
+        <label>메시지 <span style="font-weight:300;color:var(--text-sub)">(선택)</span></label>
+        <textarea id="faceGbMsg" placeholder="결혼 축하합니다! (10자 제한)" maxlength="10"></textarea>
+      </div>
+      <div class="gb-field">
+        <label>비밀번호 <span>*</span></label>
+        <p>방명록 삭제에 필요한 비밀번호를 적어주세요</p>
+        <input id="faceGbPw" type="password" placeholder="1234 (숫자 4자리)" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" style="font-size:16px;">
+      </div>
+      <button class="gb-send-btn" onclick="submitFaceGb()">얼굴 방명록 남기기</button>
+    </div>
+  </div>
+</div>
+
+
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
 <!-- Footer -->
 <footer>
@@ -1299,8 +1581,9 @@ const firebaseConfig = {
   appId: "1:232475133810:web:a2106c81c5fa8fd91a7feb"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const gbCol = db.collection('guestbook');
+const db      = firebase.firestore();
+const storage = firebase.storage();
+const gbCol   = db.collection('guestbook');
 
 // 실시간 업데이트
 gbCol.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
@@ -1630,6 +1913,273 @@ const frameInterval = setInterval(() => {
 
 // 2.5초 후 웹사이트 진입
 setTimeout(endIntro, 2500);
+
+/* ─── 얼굴 그림 방명록 ─── */
+const faceCol = db.collection('faceGuestbook');
+const FACE_SLOTS_GUEST = Array.from({length: 30}, (_, i) => `g${i + 1}`);
+const FACE_EMPTY_IMG = `<img class="face-tmpl-svg" src="images/face_empty.png" alt="">`;
+
+let faceData = {};
+let currentFaceSlot = null;
+
+faceCol.onSnapshot(snap => {
+  faceData = {};
+  snap.docs.forEach(doc => {
+    const d = doc.data();
+    if (d.slot) faceData[d.slot] = { ...d, docId: doc.id };
+  });
+  renderFaceGrid();
+  renderFaceSpecial();
+});
+
+function renderFaceGrid() {
+  const grid = document.getElementById('faceGrid');
+  if (!grid) return;
+  grid.innerHTML = FACE_SLOTS_GUEST.map(slot => {
+    const d = faceData[slot];
+    return `<div class="face-slot${d ? ' filled' : ''}" data-slot="${slot}" onclick="handleFaceSlotClick('${slot}')">
+      <div class="face-slot-body">${d ? `<div class="face-drawn-wrap"><img class="face-tmpl-svg" src="images/face_empty.png" alt=""><img class="face-drawn-img" src="${d.imageUrl}" alt="${esc(d.name)}"></div>` : FACE_EMPTY_IMG}</div>
+      ${d ? `<div class="face-slot-info">
+        <span class="face-slot-name">${esc(d.name)}</span>
+        ${d.message ? `<span class="face-slot-msg">${esc(d.message)}</span>` : ''}
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderFaceSpecial() {
+  ['groom', 'bride'].forEach(slot => {
+    const el = document.getElementById(`fslot-${slot}`);
+    if (!el) return;
+    const d = faceData[slot];
+    if (!d) return;
+    el.classList.add('filled');
+    el.querySelector('.face-slot-body').innerHTML = `<div class="face-drawn-wrap"><img class="face-tmpl-svg" src="images/face_empty.png" alt=""><img class="face-drawn-img" src="${d.imageUrl}" alt="${esc(d.name)}"></div>`;
+    // 이름/메시지 영역: 없으면 새로 추가
+    let infoEl = el.querySelector('.face-slot-info');
+    if (!infoEl) {
+      infoEl = document.createElement('div');
+      infoEl.className = 'face-slot-info';
+      el.appendChild(infoEl);
+    }
+    infoEl.innerHTML = `<span class="face-slot-name">${esc(d.name)}</span>${d.message ? `<span class="face-slot-msg">${esc(d.message)}</span>` : ''}`;
+  });
+}
+
+function handleFaceSlotClick(slot) {
+  if (faceData[slot]) { openFaceViewer(slot); return; }
+  openFaceModal(slot);
+}
+
+let viewingFaceSlot = null;
+function openFaceViewer(slot) {
+  const d = faceData[slot];
+  if (!d) return;
+  viewingFaceSlot = slot;
+  document.getElementById('faceViewImg').src  = d.imageUrl;
+  document.getElementById('faceViewName').textContent = d.name;
+  document.getElementById('faceViewMsg').textContent  = d.message || '';
+  document.getElementById('faceViewPwRow').classList.remove('show');
+  document.getElementById('faceViewPwInput').value = '';
+  document.getElementById('faceViewDelBtn').textContent = '삭제하기';
+  showModal('modal-face-view');
+}
+function toggleFaceDelPw() {
+  const row = document.getElementById('faceViewPwRow');
+  const isShown = row.classList.contains('show');
+  row.classList.toggle('show', !isShown);
+  document.getElementById('faceViewDelBtn').textContent = isShown ? '삭제하기' : '취소';
+  if (!isShown) document.getElementById('faceViewPwInput').focus();
+}
+async function confirmFaceDel() {
+  const pw = document.getElementById('faceViewPwInput').value.trim();
+  if (!pw) { toast('비밀번호를 입력해주세요'); return; }
+  const d = faceData[viewingFaceSlot];
+  if (!d) return;
+  if (d.password !== pw) { toast('비밀번호가 일치하지 않습니다'); return; }
+  try {
+    await faceCol.doc(d.docId).delete();
+    // Storage 파일도 삭제 시도 (실패해도 무시)
+    try {
+      const url  = new URL(d.imageUrl);
+      const path = decodeURIComponent(url.pathname.split('/o/')[1].split('?')[0]);
+      await storage.ref(path).delete();
+    } catch(_) {}
+    closeModal('modal-face-view');
+    toast('삭제되었습니다');
+  } catch(e) {
+    toast('삭제 실패: ' + e.message);
+  }
+}
+
+// ── Canvas ──
+let faceCanvas, faceCtx, faceLogW = 280, faceLogH = 310, faceDpr = 1;
+let faceDrawing = false, faceTool = 'pen';
+let faceLastX = 0, faceLastY = 0;
+let faceUndoStack = [], faceRedoStack = [];
+let faceEventsAttached = false;
+
+function openFaceModal(slot) {
+  currentFaceSlot = slot;
+  document.getElementById('faceGbName').value = '';
+  document.getElementById('faceGbMsg').value  = '';
+  document.getElementById('faceGbPw').value   = '';
+  const btn = document.querySelector('#modal-face-draw .gb-send-btn');
+  btn.textContent = '얼굴 방명록 남기기'; btn.disabled = false;
+  setFaceTool('pen');
+  showModal('modal-face-draw');
+  requestAnimationFrame(initFaceCanvas);
+}
+
+function initFaceCanvas() {
+  faceCanvas = document.getElementById('faceCanvas');
+  faceDpr    = window.devicePixelRatio || 1;
+  faceLogW = 280; faceLogH = 310;
+  faceCanvas.width  = faceLogW * faceDpr;
+  faceCanvas.height = faceLogH * faceDpr;
+  faceCanvas.style.width  = faceLogW + 'px';
+  faceCanvas.style.height = faceLogH + 'px';
+  faceCtx = faceCanvas.getContext('2d');
+  faceCtx.scale(faceDpr, faceDpr);
+  // 투명 캔버스 — 템플릿은 CSS img 레이어로 표시 (taint 없음 → undo 안정)
+  faceCtx.clearRect(0, 0, faceLogW, faceLogH);
+  faceUndoStack = [faceCtx.getImageData(0, 0, faceCanvas.width, faceCanvas.height)];
+  faceRedoStack = [];
+  if (!faceEventsAttached) {
+    faceCanvas.addEventListener('mousedown',   faceStart, { passive: false });
+    faceCanvas.addEventListener('mousemove',   faceMove,  { passive: false });
+    faceCanvas.addEventListener('mouseup',     faceEnd,   { passive: false });
+    faceCanvas.addEventListener('mouseleave',  faceEnd,   { passive: false });
+    faceCanvas.addEventListener('touchstart',  faceStart, { passive: false });
+    faceCanvas.addEventListener('touchmove',   faceMove,  { passive: false });
+    faceCanvas.addEventListener('touchend',    faceEnd,   { passive: false });
+    faceCanvas.addEventListener('touchcancel', faceEnd,   { passive: false });
+    faceEventsAttached = true;
+  }
+}
+
+function drawFaceOutline(ctx, w, h) {
+  const cx = w * 0.5, cy = h * 0.518;
+  const rx = w * 0.33, ry = h * 0.375;
+  ctx.save();
+  ctx.strokeStyle = '#C4B4A0'; ctx.lineWidth = 2;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  // Head
+  ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
+  // Left ear
+  ctx.beginPath(); ctx.arc(cx - rx, cy + ry * 0.14, ry * 0.11, Math.PI * 0.5,  Math.PI * 1.5); ctx.stroke();
+  // Right ear
+  ctx.beginPath(); ctx.arc(cx + rx, cy + ry * 0.14, ry * 0.11, -Math.PI * 0.5, Math.PI * 0.5); ctx.stroke();
+  // Hair bumps
+  const ty = cy - ry;
+  ctx.beginPath(); ctx.moveTo(cx-rx*0.56, ty+ry*0.08); ctx.bezierCurveTo(cx-rx*0.63, ty-ry*0.10, cx-rx*0.25, ty-ry*0.15, cx-rx*0.25, ty+ry*0.02); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx-rx*0.10, ty);         ctx.bezierCurveTo(cx-rx*0.10, ty-ry*0.15, cx+rx*0.10, ty-ry*0.15, cx+rx*0.10, ty);         ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx+rx*0.25, ty+ry*0.02); ctx.bezierCurveTo(cx+rx*0.25, ty-ry*0.15, cx+rx*0.63, ty-ry*0.10, cx+rx*0.56, ty+ry*0.08); ctx.stroke();
+  ctx.restore();
+}
+
+function getFacePos(e) {
+  const rect = faceCanvas.getBoundingClientRect();
+  let cx, cy;
+  if (e.touches && e.touches.length > 0) { cx = e.touches[0].clientX; cy = e.touches[0].clientY; }
+  else { cx = e.clientX; cy = e.clientY; }
+  return { x: (cx - rect.left) * (faceLogW / rect.width), y: (cy - rect.top) * (faceLogH / rect.height) };
+}
+
+function faceStart(e) {
+  if (!faceCtx) return; e.preventDefault();
+  faceDrawing = true;
+  const p = getFacePos(e); faceLastX = p.x; faceLastY = p.y;
+  if (faceTool === 'eraser') {
+    faceCtx.globalCompositeOperation = 'destination-out';
+    faceCtx.beginPath(); faceCtx.arc(p.x, p.y, 9, 0, Math.PI*2);
+    faceCtx.fillStyle = 'rgba(0,0,0,1)'; faceCtx.fill();
+    faceCtx.globalCompositeOperation = 'source-over';
+  } else {
+    for (let i = 0; i < 5; i++) {
+      faceCtx.beginPath();
+      faceCtx.arc(p.x+(Math.random()-.5)*2.5, p.y+(Math.random()-.5)*2.5, .8+Math.random()*1.5, 0, Math.PI*2);
+      faceCtx.fillStyle = `rgba(26,26,26,${.25+Math.random()*.45})`;
+      faceCtx.fill();
+    }
+  }
+}
+function faceMove(e) {
+  if (!faceDrawing || !faceCtx) return; e.preventDefault();
+  const p = getFacePos(e);
+  if (faceTool === 'eraser') {
+    faceCtx.globalCompositeOperation = 'destination-out';
+    faceCtx.beginPath(); faceCtx.moveTo(faceLastX, faceLastY); faceCtx.lineTo(p.x, p.y);
+    faceCtx.lineWidth = 18; faceCtx.strokeStyle = 'rgba(0,0,0,1)';
+    faceCtx.lineCap = 'round'; faceCtx.stroke();
+    faceCtx.globalCompositeOperation = 'source-over';
+  } else {
+    for (let i = 0; i < 5; i++) {
+      const jx1 = faceLastX + (Math.random()-.5)*2.8, jy1 = faceLastY + (Math.random()-.5)*2.8;
+      const jx2 = p.x       + (Math.random()-.5)*2.8, jy2 = p.y       + (Math.random()-.5)*2.8;
+      faceCtx.beginPath(); faceCtx.moveTo(jx1, jy1); faceCtx.lineTo(jx2, jy2);
+      faceCtx.strokeStyle = `rgba(26,26,26,${.22+Math.random()*.48})`;
+      faceCtx.lineWidth = 1.2+Math.random()*2.3;
+      faceCtx.lineCap = 'round'; faceCtx.stroke();
+    }
+  }
+  faceLastX = p.x; faceLastY = p.y;
+}
+function faceEnd(e) {
+  if (!faceDrawing || !faceCtx) return; faceDrawing = false;
+  faceUndoStack.push(faceCtx.getImageData(0, 0, faceCanvas.width, faceCanvas.height));
+  if (faceUndoStack.length > 30) faceUndoStack.shift();
+  faceRedoStack = [];
+}
+function setFaceTool(t) {
+  faceTool = t;
+  document.getElementById('toolPen').classList.toggle('active',    t === 'pen');
+  document.getElementById('toolEraser').classList.toggle('active', t === 'eraser');
+}
+function faceUndo() {
+  if (faceUndoStack.length <= 1) return;
+  faceRedoStack.push(faceUndoStack.pop());
+  faceCtx.putImageData(faceUndoStack[faceUndoStack.length - 1], 0, 0);
+}
+function faceDo() {
+  if (!faceRedoStack.length) return;
+  const s = faceRedoStack.pop(); faceUndoStack.push(s);
+  faceCtx.putImageData(s, 0, 0);
+}
+
+async function submitFaceGb() {
+  if (faceData[currentFaceSlot]) { toast('이미 다른 분이 선택한 자리입니다'); closeModal('modal-face-draw'); return; }
+  const name = document.getElementById('faceGbName').value.trim();
+  const msg  = document.getElementById('faceGbMsg').value.trim();
+  const pw   = document.getElementById('faceGbPw').value.trim();
+  if (!name) { toast('성함을 입력해주세요'); return; }
+  if (!pw)   { toast('비밀번호를 입력해주세요'); return; }
+  if (!/^\d{4}$/.test(pw)) { toast('비밀번호는 숫자 4자리로 입력해주세요'); return; }
+  if (hasBadWord(name)) { toast('부적절한 표현이 포함되어 있습니다'); return; }
+
+  const btn = document.querySelector('#modal-face-draw .gb-send-btn');
+  btn.textContent = '저장 중...'; btn.disabled = true;
+  try {
+    // faceCanvas 직접 저장 (투명 배경 + 스트로크만) — 외부 이미지 없음 → taint 없음
+    // 뷰어/갤러리에서 템플릿 CSS 레이어가 투명 영역을 통해 보임
+    const blob = await new Promise((res, rej) =>
+      faceCanvas.toBlob(b => b ? res(b) : rej(new Error('blob fail')), 'image/png')
+    );
+    const ref  = storage.ref(`face-drawings/${currentFaceSlot}_${Date.now()}.png`);
+    const snap = await ref.put(blob, { contentType: 'image/png' });
+    const imageUrl = await snap.ref.getDownloadURL();
+    await faceCol.add({
+      slot: currentFaceSlot, name, message: msg, password: pw,
+      imageUrl, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    closeModal('modal-face-draw');
+    toast('얼굴 방명록이 등록되었습니다! 🎨');
+  } catch(e) {
+    toast('저장 실패: ' + e.message);
+    console.error(e);
+    btn.textContent = '얼굴 방명록 남기기'; btn.disabled = false;
+  }
+}
 
 /* ─── 커버 높이 고정 (iOS Safari 줌 방지) ─── */
 const coverEl = document.getElementById('cover');
