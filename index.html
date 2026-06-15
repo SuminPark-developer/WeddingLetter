@@ -760,7 +760,7 @@
 
     .face-special-row {
       display: flex; align-items: flex-start;
-      justify-content: center; gap: 10px; margin-bottom: 28px;
+      justify-content: center; gap: 10px; margin-bottom: 12px;
     }
     .face-side-info {
       display: flex; flex-direction: column;
@@ -1989,7 +1989,16 @@ function renderFaceSpecial() {
     if (!d) return;
     el.classList.add('filled');
     el.querySelector('.face-slot-body').innerHTML = `<div class="face-drawn-wrap"><img class="face-tmpl-svg" src="images/face_empty.png" alt=""><img class="face-drawn-img" src="${d.imageUrl}" alt="${esc(d.name)}"></div>`;
-    // 신랑/신부 특별 슬롯은 이름 표기 없음 (옆에 영문 이름이 이미 있음)
+    // 신랑/신부 특별 슬롯은 이름 숨김, 메시지만 표시
+    if (d.message) {
+      let infoEl = el.querySelector('.face-slot-info');
+      if (!infoEl) {
+        infoEl = document.createElement('div');
+        infoEl.className = 'face-slot-info';
+        el.appendChild(infoEl);
+      }
+      infoEl.innerHTML = `<span class="face-slot-msg">${esc(d.message)}</span>`;
+    }
   });
 }
 
