@@ -1392,7 +1392,7 @@
   <p class="sec-label">Face Guestbook</p>
   <div class="sec-line"></div>
 
-  <p class="face-gb-title">참석해주시는 소중한 하객분들의<br>얼굴을 남겨주세요.</p>
+  <p class="face-gb-title">축하의 메시지와 함께<br>얼굴 방명록을 남겨주세요.</p>
   <p class="face-gb-sub">저희가 오래도록 소중한 추억으로 간직하겠습니다.</p>
   <p class="face-gb-inst">원하는 얼굴의 위치를 선택하고 터치해 주세요.</p>
 
@@ -1495,7 +1495,7 @@
         <p>방명록 삭제에 필요한 비밀번호를 적어주세요</p>
         <input id="faceGbPw" type="password" placeholder="1234 (숫자 4자리)" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" style="font-size:16px;">
       </div>
-      <button class="gb-send-btn" onclick="submitFaceGb()">Draw your face!</button>
+      <button class="gb-send-btn" onclick="submitFaceGb()">얼굴 방명록 남기기</button>
     </div>
   </div>
 </div>
@@ -2056,7 +2056,7 @@ function openFaceModal(slot) {
   document.getElementById('faceGbMsg').value  = '';
   document.getElementById('faceGbPw').value   = '';
   const btn = document.querySelector('#modal-face-draw .gb-send-btn');
-  btn.textContent = 'Draw your face!'; btn.disabled = false;
+  btn.textContent = '얼굴 방명록 남기기'; btn.disabled = false;
   setFaceTool('pen');
   showModal('modal-face-draw');
   requestAnimationFrame(initFaceCanvas);
@@ -2189,7 +2189,7 @@ async function submitFaceGb() {
   if (hasBadWord(name)) { toast('부적절한 표현이 포함되어 있습니다'); return; }
 
   const btn = document.querySelector('#modal-face-draw .gb-send-btn');
-  btn.textContent = 'Draw your face!'; btn.disabled = true;
+  btn.textContent = '얼굴 방명록 남기기'; btn.disabled = true;
 
   const loadingEl  = document.getElementById('face-save-loading');
   const loadingTxt = document.getElementById('face-save-loading-txt');
@@ -2215,7 +2215,7 @@ async function submitFaceGb() {
     loadingEl.classList.remove('show');
     toast('저장 실패: ' + e.message);
     console.error(e);
-    btn.textContent = 'Draw your face!'; btn.disabled = false;
+    btn.textContent = '얼굴 방명록 남기기'; btn.disabled = false;
   }
 }
 
