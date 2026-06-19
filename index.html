@@ -2022,6 +2022,9 @@ function openFaceViewer(slot) {
   document.getElementById('faceViewPwRow').classList.remove('show');
   document.getElementById('faceViewPwInput').value = '';
   document.getElementById('faceViewDelBtn').textContent = '삭제하기';
+  // 신랑/신부 슬롯은 삭제 영역 숨김
+  const isSpecial = slot === 'groom' || slot === 'bride';
+  document.getElementById('faceViewDelBtn').closest('.face-view-del-area').style.display = isSpecial ? 'none' : '';
   showModal('modal-face-view');
 }
 function toggleFaceDelPw() {
