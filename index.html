@@ -464,7 +464,7 @@
     /* ═══════════════════════════
        6. 오시는 길
     ═══════════════════════════ */
-    #direction { background: var(--bg-alt); }
+    #direction { background: var(--bg-alt); padding-top: 48px; padding-bottom: 48px; }
     .map-frame {
       width: 100%; height: 220px;
       border: 1px solid var(--border); border-radius: 10px;
@@ -1176,7 +1176,8 @@
   <div class="sec-line"></div>
   <p style="font-size:15px; line-height:2.0; color:var(--text); word-break:keep-all;">
     가까운 가족분들과 함께하는 작은 예식으로<br>
-    직접 모시지 못하는 점 깊이 양해 부탁드립니다.<br>
+    축복해주시는 모든 분들을 모시지 못하는 점<br>
+    깊이 양해 부탁드립니다.<br>
     <br>
     멀리서나마 따뜻한 마음으로<br>
     두 사람의 새 출발을 축하해 주신다면<br>
@@ -1186,63 +1187,7 @@
   </p>
 </section>
 
-
-<!-- ═════════════════════════════
-     6. 오시는 길
-═════════════════════════════ -->
-<section class="section" id="direction">
-  <p class="sec-label">Location</p>
-  <div class="sec-line"></div>
-
-  <div style="margin-bottom:8px; width:100%; overflow:hidden; border-radius:12px;">
-    <div id="daumRoughmapContainer1780472171215" class="root_daum_roughmap root_daum_roughmap_landing"></div>
-    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
-    <script charset="UTF-8">
-      new daum.roughmap.Lander({
-        "timestamp" : "1780472171215",
-        "key" : "2qbyvne5g4ev",
-        "mapWidth" : "550",
-        "mapHeight" : "280"
-      }).render();
-    </script>
-  </div>
-
-  <div class="map-buttons">
-    <a class="map-btn" href="https://naver.me/xnh0Pllj" target="_blank" rel="noopener">
-      네이버 지도
-    </a>
-    <a class="map-btn" href="https://map.kakao.com/link/search/웨스틴조선호텔서울" target="_blank" rel="noopener">
-      카카오 지도
-    </a>
-  </div>
-
-  <p class="transport-title">How to get there</p>
-
-  <div class="transport-item">
-    <div class="transport-icon">🚇</div>
-    <div class="transport-text">
-      <strong>지하철</strong><br>
-      1·2호선 <strong>시청역</strong> 6번 출구 도보 6분<br>
-      2호선 <strong>을지로입구역</strong> 7번 출구 도보 5분
-    </div>
-  </div>
-  <div class="transport-item">
-    <div class="transport-icon">🚌</div>
-    <div class="transport-text">
-      <strong>버스</strong><br>
-      롯데백화점 본점 정류장 하차 후 도보 3분
-    </div>
-  </div>
-  <div class="transport-item">
-    <div class="transport-icon">🚗</div>
-    <div class="transport-text">
-      <strong>자가용</strong><br>
-      웨스틴 조선호텔 지하 주차장 이용<br>
-      <small>* 주차권 5시간 제공</small>
-    </div>
-  </div>
-</section>
-
+<hr style="border:none; border-top:1px solid var(--border); margin:0;">
 
 <!-- ═════════════════════════════
      7. 계좌번호
@@ -1325,6 +1270,61 @@
 </section>
 
 
+<!-- ═════════════════════════════
+     6. 오시는 길
+═════════════════════════════ -->
+<section class="section" id="direction">
+  <p class="sec-label">Location</p>
+  <div class="sec-line"></div>
+
+  <div style="margin-bottom:8px; width:100%; overflow:hidden; border-radius:12px;">
+    <div id="daumRoughmapContainer1780472171215" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+    <script charset="UTF-8">
+      new daum.roughmap.Lander({
+        "timestamp" : "1780472171215",
+        "key" : "2qbyvne5g4ev",
+        "mapWidth" : "550",
+        "mapHeight" : "280"
+      }).render();
+    </script>
+  </div>
+
+  <div class="map-buttons">
+    <a class="map-btn" href="https://naver.me/xnh0Pllj" target="_blank" rel="noopener">
+      네이버 지도
+    </a>
+    <a class="map-btn" href="https://map.kakao.com/link/search/웨스틴조선호텔서울" target="_blank" rel="noopener">
+      카카오 지도
+    </a>
+  </div>
+
+  <p class="transport-title">How to get there</p>
+
+  <div class="transport-item">
+    <div class="transport-icon">🚇</div>
+    <div class="transport-text">
+      <strong>지하철</strong><br>
+      1·2호선 <strong>시청역</strong> 6번 출구 도보 6분<br>
+      2호선 <strong>을지로입구역</strong> 7번 출구 도보 5분
+    </div>
+  </div>
+  <div class="transport-item">
+    <div class="transport-icon">🚌</div>
+    <div class="transport-text">
+      <strong>버스</strong><br>
+      롯데백화점 본점 정류장 하차 후 도보 3분
+    </div>
+  </div>
+  <div class="transport-item">
+    <div class="transport-icon">🚗</div>
+    <div class="transport-text">
+      <strong>자가용</strong><br>
+      웨스틴 조선호텔 지하 주차장 이용<br>
+      <small>* 주차권 5시간 제공</small>
+    </div>
+  </div>
+</section>
 
 
 <!-- ═════════════════════════════
@@ -1389,6 +1389,8 @@
   </div>
 </div>
 
+
+<hr style="border:none; border-top:1px solid var(--border); margin:0;">
 
 <!-- ═════════════════════════════
      10. 얼굴 그림 방명록
